@@ -1,0 +1,24 @@
+Package: bitSpatial
+Type: Package
+Title: Tools for Spatial Analysis in Korean Regions
+Version: 0.1.0.9001
+Date: 2023-01-23
+Authors@R: c(
+  person("Choonghyun", "Ryu",, "choonghyun.ryu@gmail.com", role = c("aut", "cre"))
+  )
+Author: Choonghyun Ryu
+Maintainer: Choonghyun Ryu <choonghyun.ryu@gmail.com>
+BugReports: https://github.com/bit2r/bitSpatial/issues
+Description: A collection of basic utilities for Spatial Analysis.
+License: GPL-2 | file LICENSE
+Encoding: UTF-8
+Depends:
+    R (>= 3.2.0),
+    sf
+Imports:
+    dplyr,
+    here,
+    rmapshaper,
+    units
+LazyData: true
+RoxygenNote: 7.2.2
