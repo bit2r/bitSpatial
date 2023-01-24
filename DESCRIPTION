@@ -1,8 +1,8 @@
 Package: bitSpatial
 Type: Package
 Title: Tools for Spatial Analysis in Korean Regions
-Version: 0.1.0.9001
-Date: 2023-01-23
+Version: 0.1.1.9000
+Date: 2023-01-25
 Authors@R: c(
   person("Choonghyun", "Ryu",, "choonghyun.ryu@gmail.com", role = c("aut", "cre"))
   )
@@ -18,7 +18,5 @@ Depends:
 Imports:
     dplyr,
     here,
-    rmapshaper,
-    units
 LazyData: true
 RoxygenNote: 7.2.2
