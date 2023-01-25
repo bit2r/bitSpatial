@@ -1,3 +1,12 @@
+# bitSpatial 0.1.2
+
+## NEW FEATURES
+  
+* 성별 연령대별 인구수 통계 데이터 추가. (#5).
+    - 연령그룹별 성별 인구수
+
+    
+    
 # bitSpatial 0.1.1
 
 ## NEW FEATURES
