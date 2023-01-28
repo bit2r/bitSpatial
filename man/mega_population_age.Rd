@@ -22,7 +22,7 @@
 }
 }
 \source{
-"주민등록 인구통계" in <https://jumin.mois.go.kr/index.jsp>의 주민등록 인구통계 > 연령별 인구현황.
+"주민등록 인구통계" in <https://jumin.mois.go.kr/index.jsp>.
 }
 \usage{
 data(mega_population_age)

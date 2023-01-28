@@ -1,3 +1,12 @@
+# bitSpatial 0.1.3
+
+## NEW FEATURES
+  
+* 성별 평균연령 통계 데이터 추가. (#6).
+    - 여성 평균연령, 남성평균연령, 전체평균연령
+
+
+
 # bitSpatial 0.1.2
 
 ## NEW FEATURES

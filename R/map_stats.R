@@ -24,6 +24,9 @@
 #'   \item{pop_male}{numeric. 남성 인구수.}
 #'   \item{pop_female}{numeric. 여성 인구수.}
 #'   \item{male_per_female}{numeric. 여성대비 남성수.} 
+#'   \item{age_mean_male}{numeric. 남성 평균연령.}
+#'   \item{age_mean_female}{numeric. 여성 평균연령.}
+#'   \item{age_mean}{numeric. 평균연령.} 
 #'   \item{geometry}{MULTIPOLYGON. 지도 polygons.}
 #' }
 #' @docType data
@@ -32,6 +35,7 @@
 #' @usage data(mega)
 #' @source 
 #' "통계청 통계지리정보서비스" in <https://sgis.kostat.go.kr>, License : 공공저작물 자유이용허락 표시기준(공공누리, KOGL) 제 1유형
+#' "주민등록 인구통계" in <https://jumin.mois.go.kr/index.jsp>.
 NULL
 
 
@@ -75,7 +79,7 @@ NULL
 #' @name mega_population_age
 #' @usage data(mega_population_age)
 #' @source 
-#' "주민등록 인구통계" in <https://jumin.mois.go.kr/index.jsp>의 주민등록 인구통계 > 연령별 인구현황.
+#' "주민등록 인구통계" in <https://jumin.mois.go.kr/index.jsp>.
 NULL
 
 
