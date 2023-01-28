@@ -1,3 +1,12 @@
+# bitSpatial 0.1.4
+
+## NEW FEATURES
+  
+* 최적의 지도 이미지 크기 구하는 함수. (#8).
+    - optimal_map_size()
+
+
+
 # bitSpatial 0.1.3
 
 ## NEW FEATURES
