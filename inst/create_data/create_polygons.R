@@ -20,6 +20,8 @@ mega <- sf::read_sf(file_mega) %>%
 ## https://datascience.blog.wzb.eu/2021/03/15/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/
 mega <- rmapshaper::ms_simplify(mega, keep = 0.001, keep_shapes = FALSE)
 
+mega <- sf::st_transform(mega, 4326)
+
 object.size(mega) %>%
   format(units = "auto")
 
@@ -49,6 +51,8 @@ cty <- sf::read_sf(file_cty) %>%
 ## 플로팅 속도 개선을 위해서 리아스식 해안의 복잡한 해안선을 심플하게 변경
 ## https://datascience.blog.wzb.eu/2021/03/15/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/
 cty <- rmapshaper::ms_simplify(cty, keep = 0.01, keep_shapes = FALSE)
+
+cty <- sf::st_transform(cty, 4326)
 
 object.size(cty) %>%
   format(units = "auto")
@@ -80,6 +84,8 @@ admi <- sf::read_sf(file_admi) %>%
 ## 플로팅 속도 개선을 위해서 리아스식 해안의 복잡한 해안선을 심플하게 변경
 ## https://datascience.blog.wzb.eu/2021/03/15/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/
 admi <- rmapshaper::ms_simplify(admi, keep = 0.01, keep_shapes = FALSE)
+
+admi <- sf::st_transform(admi, 4326)
 
 object.size(admi) %>%
   format(units = "auto")

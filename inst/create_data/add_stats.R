@@ -14,6 +14,7 @@
 data_path <- here::here("raw", "stats")
 fnames <- c("202206_202206_주민등록인구및세대현황_월간.xlsx")
 
+library(tidyverse)
 ##------------------------------------------------------------------------------
 ## 01.01.02. 데이터 읽기
 ##------------------------------------------------------------------------------
@@ -80,14 +81,15 @@ cty <- cty %>%
       group_by(base_ym, mega_cd, mega_nm, cty_cd, cty_nm) %>% 
       summarise(population = sum(population),
                 household = sum(household),
-                pop_per_hosue = sum(pop_per_hosue) / sum(household),
+                pop_per_hosue = round(sum(population) / sum(household), 2),
                 pop_male = sum(pop_male),
                 pop_female = sum(pop_female),
                 male_per_female = sum(pop_male) / sum(pop_female),
                 .groups = "drop") %>% 
       sf::st_drop_geometry(),
     by = c("base_ym", "mega_cd", "mega_nm", "cty_cd", "cty_nm")
-  )
+  )%>% 
+  select(base_ym:land_area, population:male_per_female)
 
 
 ##------------------------------------------------------------------------------
@@ -100,14 +102,15 @@ mega <- mega %>%
       group_by(base_ym, mega_cd, mega_nm) %>% 
       summarise(population = sum(population),
                 household = sum(household),
-                pop_per_hosue = sum(pop_per_hosue) / sum(household),
+                pop_per_hosue = round(sum(population) / sum(household), 2),
                 pop_male = sum(pop_male),
                 pop_female = sum(pop_female),
                 male_per_female = sum(pop_male) / sum(pop_female),
                 .groups = "drop") %>% 
       sf::st_drop_geometry(),
     by = c("base_ym", "mega_cd", "mega_nm")
-  )
+  ) %>% 
+  select(base_ym:land_area, population:male_per_female)
 
 
 ##==============================================================================
@@ -376,7 +379,7 @@ mega <- mega %>%
       select(-mega_nm),
     by = c("base_ym", "mega_cd")
   ) %>% 
-  select(base_ym:land_area, population:age_mean, geometry)
+  select(base_ym:male_per_female, age_mean_male:age_mean, geometry) 
 
 ##------------------------------------------------------------------------------
 ## 03.04.02. 시군구 레벨에 붙이기
@@ -394,7 +397,7 @@ cty <- cty %>%
       select(-mega_nm, -cty_cd, -cty_nm),
     by = c("base_ym", "mega_cd", "cty_cd2")
   ) %>% 
-  select(base_ym:land_area, population:age_mean, -cty_cd2) 
+  select(base_ym:male_per_female, age_mean_male:age_mean, geometry, -cty_cd2) 
 
 ##------------------------------------------------------------------------------
 ## 03.04.03. 읍면동 레벨에 집계하여 붙이기
