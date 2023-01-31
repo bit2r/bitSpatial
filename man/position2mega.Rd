@@ -23,7 +23,7 @@ position2admi(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH"))
 data.frame. 행정구역 정보.
 데이터 프레임의 변수는 다음과 같습니다.
 \itemize{
-\item long numeric. 경도.
+\item lon numeric. 경도.
 \item lat numeric. 위도.
 \item base_ym character. 경계 수치지도의 기준 년월.
 \item mega_cd character. 광역시도 코드.

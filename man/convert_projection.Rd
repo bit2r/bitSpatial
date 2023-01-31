@@ -26,7 +26,7 @@ data.frame. 변경 전후의 경도, 위도 정보.
 \itemize{
 \item x numeric. 변경 전의 경도
 \item y numeric. 변경 전의 위도
-\item long numeric. 변경 후의 경도
+\item lon numeric. 변경 후의 경도
 \item lat numeric. 변경 후의 위도
 }
 }

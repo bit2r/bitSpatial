@@ -26,6 +26,9 @@
   \item{age_mean_male}{numeric. 남성 평균연령.}
   \item{age_mean_female}{numeric. 여성 평균연령.}
   \item{age_mean}{numeric. 평균연령.} 
+  \item{elemnt_schl_cnt}{numeric. 초등학교갯수.} 
+  \item{mdle_schl_cnt}{numeric. 중학교갯수.} 
+  \item{high_schl_cnt}{numeric. 고등학교갯수.} 
   \item{geometry}{MULTIPOLYGON. 지도 polygons.}
 }
 }

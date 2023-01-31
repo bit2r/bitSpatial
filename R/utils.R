@@ -55,7 +55,7 @@ optimal_map_size <- function(map, width = 800, height = NULL) {
 #' @return data.frame. 행정구역 정보.
 #' 데이터 프레임의 변수는 다음과 같습니다.
 #' \itemize{
-#' \item long numeric. 경도.
+#' \item lon numeric. 경도.
 #' \item lat numeric. 위도.
 #' \item base_ym character. 경계 수치지도의 기준 년월.
 #' \item mega_cd character. 광역시도 코드.
@@ -104,37 +104,26 @@ position2mega <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) 
   if (proj != "WGS84") {
     pos <- convert_projection(x, y, from = proj, to = "WGS84")
     
-    x <- pos$long
+    x <- pos$lon
     y <- pos$lat
   }
     
   crsWGS84  <- 4326
-  
-  postions <- data.frame(long = x, lat = y)
+
+  postions <- data.frame(lon = x, lat = y)
   
   result <- postions %>% 
-    NROW() %>% 
-    seq() %>% 
-    purrr::map_df(
-    function(x) {
-      suppressWarnings(
-        tibble::tibble(postions[x, ]) %>% 
-          bind_cols(
-            postions[x, ] %>% 
-              st_as_sf(coords = c("long", "lat")) %>% 
-              st_set_crs(crsWGS84) %>% 
-              st_intersection(mega) %>% 
-              select(base_ym:mega_nm) %>% 
-              st_drop_geometry()           
-          )        
-      )
-    }
-  )
+    st_as_sf(coords = c("lon", "lat")) %>% 
+    st_set_crs(crsWGS84) %>% 
+    st_intersects(mega) %>% 
+    as.integer() %>% 
+    mega[., ] %>% 
+    select(base_ym:mega_nm) %>% 
+    st_drop_geometry() 
   
   postions %>% 
-    left_join(
-      result,
-      by = c("long", "lat")
+    bind_cols(
+      result
     )
 }
 
@@ -152,39 +141,29 @@ position2cty <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) {
   if (proj != "WGS84") {
     pos <- convert_projection(x, y, from = proj, to = "WGS84")
     
-    x <- pos$long
+    x <- pos$lon
     y <- pos$lat
   }
   
   crsWGS84  <- 4326
   
-  postions <- data.frame(long = x, lat = y)
+  postions <- data.frame(lon = x, lat = y)
   
   result <- postions %>% 
-    NROW() %>% 
-    seq() %>% 
-    purrr::map_df(
-      function(x) {
-        suppressWarnings(
-          tibble::tibble(postions[x, ]) %>% 
-            bind_cols(
-              postions[x, ] %>% 
-                st_as_sf(coords = c("long", "lat")) %>% 
-                st_set_crs(crsWGS84) %>% 
-                st_intersection(cty) %>% 
-                select(base_ym:cty_nm) %>% 
-                st_drop_geometry()           
-            )        
-        )
-      }
-    )
-  
+    st_as_sf(coords = c("lon", "lat")) %>% 
+    st_set_crs(crsWGS84) %>% 
+    st_intersects(cty) %>% 
+    as.integer() %>% 
+    cty[., ] %>% 
+    select(base_ym:cty_nm) %>% 
+    st_drop_geometry() 
+    
   postions %>% 
-    left_join(
-      result,
-      by = c("long", "lat")
+    bind_cols(
+      result
     )
 }
+
 
 
 #' @rdname position2mega
@@ -200,37 +179,26 @@ position2admi <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) 
   if (proj != "WGS84") {
     pos <- convert_projection(x, y, from = proj, to = "WGS84")
     
-    x <- pos$long
+    x <- pos$lon
     y <- pos$lat
   }
   
   crsWGS84  <- 4326
   
-  postions <- data.frame(long = x, lat = y)
+  postions <- data.frame(lon = x, lat = y)
   
   result <- postions %>% 
-    NROW() %>% 
-    seq() %>% 
-    purrr::map_df(
-      function(x) {
-        suppressWarnings(
-          tibble::tibble(postions[x, ]) %>% 
-            bind_cols(
-              postions[x, ] %>% 
-                st_as_sf(coords = c("long", "lat")) %>% 
-                st_set_crs(crsWGS84) %>% 
-                st_intersection(admi) %>% 
-                select(base_ym:admi_nm) %>% 
-                st_drop_geometry()           
-            )        
-        )
-      }
-    )
+    st_as_sf(coords = c("lon", "lat")) %>% 
+    st_set_crs(crsWGS84) %>% 
+    st_intersects(admi) %>% 
+    as.integer() %>% 
+    admi[., ] %>% 
+    select(base_ym:admi_nm) %>% 
+    st_drop_geometry() 
   
   postions %>% 
-    left_join(
-      result,
-      by = c("long", "lat")
+    bind_cols(
+      result
     )
 }
 
@@ -249,7 +217,7 @@ position2admi <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) 
 #' \itemize{
 #' \item x numeric. 변경 전의 경도
 #' \item y numeric. 변경 전의 위도
-#' \item long numeric. 변경 후의 경도
+#' \item lon numeric. 변경 후의 경도
 #' \item lat numeric. 변경 후의 위도
 #' }
 #' 
@@ -319,11 +287,10 @@ convert_projection <- function(x, y, from = c("WGS84", "Bessel", "GRS80", "KATEC
     st_coordinates() %>% 
     as.data.frame()
   
-  names(xy_convert) <- c("long", "lat")
+  names(xy_convert) <- c("lon", "lat")
   
   xy %>% 
     bind_cols(
       xy_convert
     )
 }
-

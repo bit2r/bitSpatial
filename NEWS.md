@@ -1,3 +1,14 @@
+# bitSpatial 0.2.1
+
+## MINOR CHANGES
+  
+* 위도/경도로 행정구역 코드 매핑 함수 속도 개선. (#15).
+    - position2mega()
+    - position2cty()
+    - position2admi()
+
+
+
 # bitSpatial 0.2.0
 
 ## NEW FEATURES
@@ -17,7 +28,7 @@
     - position2admi()
     
 * 전국 초중등학교 위치 표준 데이터 (#10).
-    - school_position    
+    - school   
     
 ## MAJOR CHANGES
 
