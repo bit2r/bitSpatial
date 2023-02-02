@@ -1,5 +1,10 @@
 # bitSpatial 0.2.1
 
+## NEW FEATURES
+  
+* 두 좌표의 거리 구하기. (#16).
+    - optimal_map_size()
+    
 ## MINOR CHANGES
   
 * 위도/경도로 행정구역 코드 매핑 함수 속도 개선. (#15).

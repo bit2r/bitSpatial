@@ -294,3 +294,77 @@ convert_projection <- function(x, y, from = c("WGS84", "Bessel", "GRS80", "KATEC
       xy_convert
     )
 }
+
+
+#' 두 좌표의 거리 구하기
+#' 
+#' @description 좌표계에서 위도, 경도로 이루어진 두 지점간의 거리를 구함
+#' 
+#' @param lon1 numeric. 첫 좌표의 경도. 
+#' @param lat1 numeric. 첫 좌표의 위도. 
+#' @param lon2 numeric. 둘째 좌표의 경도. 
+#' @param lat2 numeric. 둘째 좌표의 위도. 
+#' @param proj character. 좌표계 CRS 정보.
+#' 
+#' @return numeric. 두 점 간의 거리. 미터(m) 단위의 거리.
+#' @details proj에 사용할 수 있는 좌표계 CRS정보는 다음과 같습니다. 
+#' 만약 다음 4개가 아닌 좌표계는 CRS 문자열을 기술해야 합니다.:
+#' \itemize{
+#' \item "WGS84" : WGS84 경위도 좌표계. (EPSG:4326)
+#' \item "Bessel" : Bessel 1841 경위도. 한국과 일본에 잘 맞는 지역타원체를 사용한 좌표계.
+#' \item "GRS80" : 통계청 통계지리정보서비스 좌표계(네이버지도에서 사용중인 좌표계). (EPSG:5179)
+#' \item "KATECH" : KATECH 좌표계. 비표준 좌표계임.
+#' }
+#' 
+#' @examples
+#' calc_distance(37.23, 132.12, 37.32, 133.45)
+#' 
+#' @export
+#' @import dplyr
+#' @import sf
+calc_distance <- function(lon1, lat1, lon2, lat2, 
+                          proj = c("WGS84", "Bessel", "GRS80", "KATECH")) {
+  # WGS84 경위도 좌표계 : EPSG:4326
+  projWGS84 <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+  crsWGS84  <- 4326
+  
+  # Bessel 1841 경위도: 한국과 일본에 잘 맞는 지역타원체를 사용한 좌표계
+  projBessel <- "+proj=longlat +ellps=bessel +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43"
+  crsBessel  <- 4162
+  
+  # Korea 2000 / Unified CS: 통계청 통계지리정보서비스 좌표계(네이버지도에서 사용중인 좌표계) (EPSG:5179)
+  projGRS80 <- "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +units=m +no_defs"
+  crsGRS80  <- 5179
+  
+  # KATECH 좌표계
+  projKATECH <- "+proj=tmerc +lat_0=38 +lon_0=128 +k=0.9999 +x_0=400000 +y_0=600000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43"
+  crsKATECH  <- NA 
+  
+  proj <- match.arg(proj)
+  
+  crs <- case_when(
+    proj %in% "WGS84" ~ projWGS84,
+    proj %in% "Bessel" ~ projBessel,
+    proj %in% "GRS80" ~ projGRS80,
+    proj %in% "KATECH" ~ projKATECH,
+    TRUE ~ proj    
+  )
+  
+  xy <- data.frame(x = lon1, y = lat1)
+  
+  pos_1 <- xy %>% 
+    st_as_sf(coords = c("x", "y")) %>% 
+    st_set_crs(crs) 
+  
+  xy <- data.frame(x = lon2, y = lat2)
+  
+  pos_2 <- xy %>% 
+    st_as_sf(coords = c("x", "y")) %>% 
+    st_set_crs(crs)   
+  
+  suppressWarnings(
+    st_distance(pos_1, pos_2, by_element = TRUE) %>% 
+      as.numeric()
+  )
+}
+
