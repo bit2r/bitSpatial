@@ -13,13 +13,14 @@ Description: A collection of basic utilities for Spatial Analysis.
 License: GPL-2 | file LICENSE
 Encoding: UTF-8
 Depends:
-    R (>= 3.2.0),
+    dplyr,
     ggplot2,    
     sf
 Imports:
-    dplyr,
+    classInt,
     here,
     purrr,
+    rlang,
     tibble,
     tmaptools
 LazyData: true

@@ -317,7 +317,7 @@ convert_projection <- function(x, y, from = c("WGS84", "Bessel", "GRS80", "KATEC
 #' }
 #' 
 #' @examples
-#' calc_distance(37.23, 132.12, 37.32, 133.45)
+#' calc_distance(132.12, 37.23, 133.45, 37.32)
 #' 
 #' @export
 #' @import dplyr

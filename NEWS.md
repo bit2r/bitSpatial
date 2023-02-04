@@ -2,6 +2,9 @@
 
 ## NEW FEATURES
   
+* 주제도 시각화 함수. (#18).
+    - thematic_map()
+
 * 두 좌표의 거리 구하기. (#16).
     - optimal_map_size()
     
