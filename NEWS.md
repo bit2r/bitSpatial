@@ -1,3 +1,18 @@
+# bitSpatial 0.2.2
+
+## NEW FEATURES
+  
+* 한글폰트 추가 및 주제도에 적용. (#17).
+    - 나눔스퀘어 폰트
+    - thematic_map()에 적용
+
+## BUG FIXS
+  
+* 주제도에서 값의 범위를 커버 못하는 그라데이션 오류 수정. (#19).
+    - thematic_map()
+
+
+    
 # bitSpatial 0.2.1
 
 ## NEW FEATURES

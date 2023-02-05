@@ -75,6 +75,9 @@ theme_custom_map <- function(base_size = 11,
 #' @param legend_pos character. 주제도의 범례를 출력할 위치로 stat 인수를 지정할 
 #' 경우에만 효력이 있음. 이 인수를 지정하지 않으면 범례를 출력하지 않음. 
 #' "none", "left", "right", "bottom", "top"에서 선택.
+#' @param base_family character. 주제도에 출력할 문자 폰트 패밀리. 
+#' 기본값은 나눔스퀘어 폰트인 "NanumSquare"이며, 온라인 환경에서는 본고딕인 
+#' "Noto Sans Korean"을 지정할 수 있음.
 #' @details
 #' 통계의 종류는 shpinfo 데이터 프레임에 32개가 정의되어 있음.
 #' 이중 stat_code 변수를 stat 인수에 사용해야 함.
@@ -120,7 +123,7 @@ theme_custom_map <- function(base_size = 11,
 #' @export
 #' @import dplyr
 #' @import ggplot2
-#' @importFrom  rlang sym
+#' @importFrom  rlang sym enquo
 #' @importFrom classInt classIntervals
 thematic_map <- function(
     zoom = c("mega", "cty", "admi")[1], subset = NULL, stat = NULL, 
@@ -134,15 +137,8 @@ thematic_map <- function(
   map_df <- eval(get(zoom))
   
   if (!missing(subset)) {
-    x <- map_df
-    
-    e <- substitute(!!subset)
-    r <- eval(e, x)
-    
-    if (!is.logical(r))
-      stop("'subset' must be logical")
-    
-    map_df <- map_df[r & !is.na(r), ]
+    map_df <- map_df %>% 
+      filter(!!rlang::enquo(subset))
   }
   
   if (is.null(stat) & length(stat %in% names(map_df)) == 0) {
@@ -155,10 +151,12 @@ thematic_map <- function(
       pull()
     
     suppressWarnings({
-      brks <- classInt::classIntervals(stats, n = col_cnt, style = "pretty")$brks
+      stats2 <- c(min(stats) - .00001, stats)
+      
+      brks <- classInt::classIntervals(stats2, n = col_cnt, style = "pretty")$brks
       
       if (length(brks) > col_cnt) {
-        brks <- classInt::classIntervals(stats, n = col_cnt, style = "quantile")
+        brks <- classInt::classIntervals(stats2, n = col_cnt, style = "quantile")
         brks <- unique(round(brks$brks))
       }         
     })
@@ -210,7 +208,8 @@ thematic_map <- function(
       p <- p +
         ggrepel ::geom_label_repel(
           aes(label = label_string, geometry = geometry),
-          stat = "sf_coordinates")
+          stat = "sf_coordinates",
+          family = base_family)
     }
   }
   

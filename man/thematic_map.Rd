@@ -59,6 +59,10 @@ thematic_map(
 \item{legend_pos}{character. 주제도의 범례를 출력할 위치로 stat 인수를 지정할 
 경우에만 효력이 있음. 이 인수를 지정하지 않으면 범례를 출력하지 않음. 
 "none", "left", "right", "bottom", "top"에서 선택.}
+
+\item{base_family}{character. 주제도에 출력할 문자 폰트 패밀리. 
+기본값은 나눔스퀘어 폰트인 "NanumSquare"이며, 온라인 환경에서는 본고딕인 
+"Noto Sans Korean"을 지정할 수 있음.}
 }
 \description{
 패키지에 포함된 통계 데이터로 여러 포맷의 주제도를 시각화함
