@@ -140,3 +140,28 @@ NULL
 #' @source 
 #' 공공데이터포털의 "전국초중등학교위치표준데이터" in <https://www.data.go.kr/data/15021148/standard.do?recommendDataYn=Y>.
 NULL
+
+
+
+#' 제공 통계정보
+#' 
+#' @description 
+#' 행정구역 경계 수치지도 데이터와 함께 제공되는 공공데이터 집계 정보
+#' 
+#' @details 
+#' 행정구역 경계 수치지도 데이터인 mega, cty, admi의 데이터 컬럼에 포함된 통계의  
+#' 정보를 담고 있는 데이터임.
+#' 
+#' @format 3개의 변수를 담은 data.frame 클래스 객체.
+#' \describe{
+#'   \item{stats_id}{character. 통계 아이디.}
+#'   \item{stats_nm}{character. 통계 이름.}
+#'   \item{is_use}{logical. 사용여부. TRUE이면 사용할 수 있는 통계 정보이며, 
+#'   FALSE이면 관리되지 않는 통계 정보로 사용할 수 없음을 의미함} 
+#' }
+#' @docType data
+#' @keywords datasets
+#' @name stats_info
+#' @usage data(stats_info)
+NULL
+
