@@ -28,7 +28,7 @@ thematic_map(
 
 \item{subset}{expression. 지도에서 일부 영역을 표현할 조건.}
 
-\item{stat}{character. 주제도에서 표현할 통계의 종류 코드.}
+\item{stat}{character. 주제도에서 표현할 통계의 종류 영문 이름이나 한글 이름. See details.}
 
 \item{polygon}{logical. 다각형 영역에 heatmap을 표현할지의 여부. 
 기본값은 TRUE. stat 인수를 사용할 경우에만 허용됨.}
@@ -68,13 +68,16 @@ thematic_map(
 패키지에 포함된 통계 데이터로 여러 포맷의 주제도를 시각화함
 }
 \details{
-통계의 종류는 shpinfo 데이터 프레임에 32개가 정의되어 있음.
-이중 stat_code 변수를 stat 인수에 사용해야 함.
+통계의 종류는 stats_info 데이터 프레임에 13개가 정의되어 있음.
+이중 stats_id나 stats_nm 변수를 stat 인수에 사용해야 함.
 }
 \examples{
 \dontrun{
-# 광역시도 인구분포 주제도 그리기
+# 광역시도 인구분포 주제도 그리기 - 통계 영문 이름을 적용
 thematic_map(stat = "population")
+
+# 광역시도 인구분포 주제도 그리기 - 통계 이름을 적용
+thematic_map(stat = "인구수")
 
 # 포인트 추가 및 "Blues" 팔레트 적용
 thematic_map(stat = "household", point = TRUE, palette = "Blues")
@@ -111,5 +114,5 @@ thematic_map(zoom = "cty", stat = "household",
 }
 \seealso{
 \code{\link{mega}}, \code{\link{cty}}, \code{\link{admi}}, 
-\code{\link{brewer.pal}}
+\code{\link{stats_info}}, \code{\link{brewer.pal}}
 }

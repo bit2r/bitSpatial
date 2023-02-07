@@ -1,3 +1,17 @@
+# bitSpatial 0.2.3
+
+## NEW FEATURES
+
+* 제공 통계정보 데이터 추가. (#20).
+    - stats_info
+
+## MINOR CHANGES
+
+* 주제도에서 통계 연동 및 범례 통계이름 출력을 메타 데이터 활용. (#17).
+    - thematic_map()
+
+    
+
 # bitSpatial 0.2.2
 
 ## NEW FEATURES

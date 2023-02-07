@@ -55,7 +55,7 @@ theme_custom_map <- function(base_size = 11,
 #' @param zoom character. "mega", "cty", "admi"는 각각 광역시도,
 #'  시군구, 읍면동 레벨의 주제도를 지정함. 기본값은 "mega"로 광역시도 지도 정보를 가져옴.
 #' @param subset expression. 지도에서 일부 영역을 표현할 조건.
-#' @param stat character. 주제도에서 표현할 통계의 종류 코드.
+#' @param stat character. 주제도에서 표현할 통계의 종류 영문 이름이나 한글 이름. See details.
 #' @param polygon logical. 다각형 영역에 heatmap을 표현할지의 여부. 
 #' 기본값은 TRUE. stat 인수를 사용할 경우에만 허용됨.
 #' @param point logical. 다각형 영역에 산점도 표현할지의 여부. 
@@ -79,14 +79,17 @@ theme_custom_map <- function(base_size = 11,
 #' 기본값은 나눔스퀘어 폰트인 "NanumSquare"이며, 온라인 환경에서는 본고딕인 
 #' "Noto Sans Korean"을 지정할 수 있음.
 #' @details
-#' 통계의 종류는 shpinfo 데이터 프레임에 32개가 정의되어 있음.
-#' 이중 stat_code 변수를 stat 인수에 사용해야 함.
+#' 통계의 종류는 stats_info 데이터 프레임에 13개가 정의되어 있음.
+#' 이중 stats_id나 stats_nm 변수를 stat 인수에 사용해야 함.
 #' @seealso \code{\link{mega}}, \code{\link{cty}}, \code{\link{admi}}, 
-#' \code{\link{brewer.pal}}
+#' \code{\link{stats_info}}, \code{\link{brewer.pal}}
 #' @examples
 #' \dontrun{
-#' # 광역시도 인구분포 주제도 그리기
+#' # 광역시도 인구분포 주제도 그리기 - 통계 영문 이름을 적용
 #' thematic_map(stat = "population")
+#' 
+#' # 광역시도 인구분포 주제도 그리기 - 통계 이름을 적용
+#' thematic_map(stat = "인구수")
 #' 
 #' # 포인트 추가 및 "Blues" 팔레트 적용
 #' thematic_map(stat = "household", point = TRUE, palette = "Blues")
@@ -141,11 +144,18 @@ thematic_map <- function(
       filter(!!rlang::enquo(subset))
   }
   
-  if (is.null(stat) & length(stat %in% names(map_df)) == 0) {
+  if (is.null(stat) | (!stat %in% names(map_df) & !stat %in% stats_info$stats_nm)) {
     p <- map_df %>%
       ggplot() +
       geom_sf(fill = fill, color = line_col)
   } else {
+    if (stat %in% stats_info$stats_nm) {
+      stat_nm <- stat      
+      stat <- stats_info[stats_info$stats_nm %in% stat, "stats_id"]
+    } else {
+      stat_nm <- stats_info[stats_info$stats_id %in% stat, "stats_nm"]
+    }
+    
     stats <- map_df[, stat] %>%
       st_drop_geometry() %>%
       pull()
@@ -214,7 +224,7 @@ thematic_map <- function(
   }
   
   p <- p +
-    labs(title = title, subtitle = subtitle) +
+    labs(title = title, subtitle = subtitle, fill = stat_nm, size = stat_nm) +
     theme_custom_map(base_family = base_family)
   
   if (!is.null(stat) & length(stat %in% names(map_df)) > 0) {
