@@ -1,3 +1,12 @@
+# bitSpatial 0.2.4.9000
+
+## NEW FEATURES
+
+* 우편번호 행정동 매핑 데이터 추가. (#23).
+    - post_admi
+    
+    
+    
 # bitSpatial 0.2.3
 
 ## NEW FEATURES
