@@ -196,3 +196,41 @@ NULL
 #' "주소기반산업지원서비스 사이트의 도로명주소 한글" in <https://business.juso.go.kr/addrlink/attrbDBDwld/attrbDBDwldList.do?cPath=99MD&menu=도로명주소+한글>.
 NULL
 
+
+#' 약국 위치 정보
+#' 
+#' @description 
+#' 건강보험심사평가원에서 제공하는 약국 위치 정보
+#' 
+#' @details 
+#' 이 데이터셋은 개별 약국의 위치정보 데이터로 병원 건물 위치의 경도/위도 정보를 
+#' 포함하고 있음. 일부 위치를 제공하지 않는 약국의 경우는 약국이 위치한 읍면동의
+#' 기하학적 중심의 좌표로 대체하였음. 
+#' 
+#' @format 15개의 변수, 24,364건을 담은 tbl_df 클래스 객체.
+#' \describe{
+#'   \item{pharmacy_nm}{character. 약국이름.}
+#'   \item{class_cd}{character. 종별코드.}
+#'   \item{class_nm}{character. 종별이름.}
+#'   \item{post_cd}{character. 도로명 우편번호.}
+#'   \item{address}{character. 도로명 주소.}
+#'   \item{open_date}{character. 개업일자.}
+#'   \item{lon}{numeric. 위치정보, 경도.}
+#'   \item{lat}{numeric. 위치정보, 위도.}
+#'   \item{base_ym}{character. 기준월도.}
+#'   \item{mega_cd}{character. 광역시도 코드.}
+#'   \item{mega_nm}{character. 광역시도 이름.}
+#'   \item{cty_cd}{character. 시군구 코드.}
+#'   \item{cty_nm}{character. 시군구 이름.}
+#'   \item{admi_cd}{character. 읍면동 코드.}
+#'   \item{admi_nm}{character. 읍면동 이름.}
+#' }
+#' @docType data
+#' @keywords datasets
+#' @name post_admi
+#' @usage data(post_admi)
+#' @source 
+#' "공공데이터 포털의 건강보험심사평가원_전국 병의원 및 약국 현황" in <https://www.data.go.kr/data/15051059/fileData.do>.
+NULL
+
+

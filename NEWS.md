@@ -1,9 +1,12 @@
-# bitSpatial 0.2.4.9000
+# bitSpatial 0.2.4.9001
 
 ## NEW FEATURES
 
 * 우편번호 행정동 매핑 데이터 추가. (#23).
-    - post_admi
+    - stats_info
+
+* 약국 위치 정보 데이터 추가. (#22).
+    - pharmacy_info
     
     
     
