@@ -16,7 +16,8 @@ stats_nm <- c(
   "평균연령",
   "초등학교수",
   "중학교수",
-  "고등학교수"
+  "고등학교수",
+  "약국수"
 )  
 
 is_use <- rep(TRUE, length(stats_id))

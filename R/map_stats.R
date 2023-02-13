@@ -30,6 +30,7 @@
 #'   \item{elemnt_schl_cnt}{numeric. 초등학교갯수.} 
 #'   \item{mdle_schl_cnt}{numeric. 중학교갯수.} 
 #'   \item{high_schl_cnt}{numeric. 고등학교갯수.} 
+#'   \item{pharmacy_cnt}{numeric. 약국갯수.} 
 #'   \item{geometry}{MULTIPOLYGON. 지도 polygons.}
 #' }
 #' @docType data
