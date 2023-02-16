@@ -110,6 +110,20 @@ hospital_pos <- tmp %>%
   ) 
 rm(tmp)
 
+
+##------------------------------------------------------------------------------
+## 02.02.02. 미 매치건 추출
+##------------------------------------------------------------------------------
+hospital_nomatch <- hospital_pos %>% 
+  filter(is.na(mega_cd))
+
+##------------------------------------------------------------------------------
+## 02.02.03. 매치건만 취하기
+##------------------------------------------------------------------------------
+hospital_pos <- hospital_pos %>% 
+  filter(!is.na(mega_cd))
+
+
 ##==============================================================================
 ## 02.02. 주소로 행정구역 매핑하기 - 위치 정보 없는 건
 ##==============================================================================
@@ -117,7 +131,12 @@ rm(tmp)
 ## 02.02.01. 대상 추출
 ##------------------------------------------------------------------------------
 no_position <- hospital %>% 
-  filter(is.na(lon))
+  filter(is.na(lon)) %>% 
+  bind_rows(
+    hospital_nomatch %>% 
+      select_at(all_of(names(hospital)))
+  )
+  
 
 ##------------------------------------------------------------------------------
 ## 02.02.02. 광역시도 + 시군구 + 읍면동 조인으로 매핑하기
@@ -143,10 +162,13 @@ hospital_nopos_01 <- tmp %>%
 ##  주소의 1, 2과 괄호 안의 워드를 각각 추출하여 조인
 ##------------------------------------------------------------------------------
 tmp <- no_position %>% 
+  setdiff(hospital_nopos_01 %>%
+            select(names(no_position))) %>%   
   mutate(mega_nm = stringr::word(address, 1)) %>% 
   mutate(cty_nm = stringr::word(address, 2)) %>% 
   mutate(admi_nm = stringr::str_replace(address, "([[:print:]]+)(\\()([[:print:]]+)(\\))", "\\3") %>% 
-           stringr::word(1))
+           stringr::word(1) %>% 
+           stringr::str_remove(","))
 
 hospital_nopos_02 <- tmp %>% 
   inner_join(
@@ -156,19 +178,25 @@ hospital_nopos_02 <- tmp %>%
     by = c("mega_nm", "cty_nm", "admi_nm")
   ) %>% 
   select(hospital_nm:lat, base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, 
-         admi_nm, geometry)
+         admi_nm, geometry) %>% 
+  setdiff(hospital_nopos_01)
 
 
 ##------------------------------------------------------------------------------
 ## 02.02.04. 광역시도 + 시군구 조인으로 매핑하기 - 도에 구가 있는 행정구역
 ##------------------------------------------------------------------------------
 tmp <- no_position %>% 
+  setdiff(hospital_nopos_01 %>%
+            select(names(no_position))) %>%  
+  setdiff(hospital_nopos_02 %>%
+            select(names(no_position))) %>%    
   mutate(mega_nm = stringr::word(address, 1)) %>% 
   mutate(cty_nm = paste(
     stringr::word(address, 2),
     stringr::word(address, 3))) %>% 
   mutate(admi_nm = stringr::str_replace(address, "([[:print:]]+)(\\()([[:print:]]+)(\\))", "\\3") %>% 
-           stringr::word(1))
+           stringr::word(1) %>% 
+           stringr::str_remove(","))
 
 hospital_nopos_03 <- tmp %>% 
   inner_join(
@@ -178,13 +206,21 @@ hospital_nopos_03 <- tmp %>%
     by = c("mega_nm", "cty_nm", "admi_nm")
   ) %>% 
   select(hospital_nm:lat, base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, 
-         admi_nm, geometry)
+         admi_nm, geometry) %>% 
+  setdiff(hospital_nopos_01) %>% 
+  setdiff(hospital_nopos_02)  
 
 
 ##------------------------------------------------------------------------------
 ## 02.02.05. 세종특별자치시
 ##------------------------------------------------------------------------------
 tmp <- no_position %>% 
+  setdiff(hospital_nopos_01 %>%
+            select(names(no_position))) %>%  
+  setdiff(hospital_nopos_02 %>%
+            select(names(no_position))) %>%  
+  setdiff(hospital_nopos_03 %>%
+            select(names(no_position))) %>%    
   filter(stringr::str_detect(address, "^세종특별자치시")) %>% 
   mutate(mega_nm = "세종특별자치시") %>% 
   mutate(cty_nm = "세종시") %>% 
@@ -205,22 +241,14 @@ hospital_nopos_04 <- tmp %>%
 ## 02.02.06. 우편번호로 행정동 패핑
 ##------------------------------------------------------------------------------
 tmp <- no_position %>% 
-  left_join(
-    hospital_nopos_01 %>% 
-      bind_rows(
-        hospital_nopos_02
-      ) %>% 
-      bind_rows(
-        hospital_nopos_03
-      ) %>% 
-      bind_rows(
-        hospital_nopos_04
-      ),
-    by = c("hospital_nm", "class_cd", "class_nm", "post_cd", "address", 
-           "open_date", "lon", "lat")
-  ) %>% 
-  filter(is.na(admi_cd)) %>% 
-  select(-(base_ym:admi_nm)) %>% 
+  setdiff(hospital_nopos_01 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_02 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_03 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_04 %>%
+            select(names(no_position))) %>% 
   left_join(
     post_admi,
     by = c("post_cd")
@@ -228,7 +256,6 @@ tmp <- no_position %>%
   filter(!is.na(mega_nm))
 
 hospital_nopos_05 <- tmp %>% 
-  select(-geometry) %>% 
   left_join(
     admi %>% 
       select(base_ym:admi_nm) %>% 
@@ -242,26 +269,16 @@ hospital_nopos_05 <- tmp %>%
 ## 02.02.07. 주소로 매핑
 ##------------------------------------------------------------------------------
 tmp <- no_position %>% 
-  left_join(
-    hospital_nopos_01 %>% 
-      bind_rows(
-        hospital_nopos_02
-      ) %>% 
-      bind_rows(
-        hospital_nopos_03
-      ) %>% 
-      bind_rows(
-        hospital_nopos_04
-      ) %>% 
-      bind_rows(
-        hospital_nopos_05
-      ),      
-    by = c("hospital_nm", "class_cd", "class_nm", "post_cd", "address", 
-           "open_date", "lon", "lat")
-  ) %>% 
-  filter(is.na(admi_cd)) %>% 
-  select(-(base_ym:admi_nm)) 
-
+  setdiff(hospital_nopos_01 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_02 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_03 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_04 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_05 %>%
+            select(names(no_position))) 
 
 tmp <- tmp %>% 
   mutate(short_addr = stringr::word(address, start = 1, end = 4)) %>% 
@@ -279,7 +296,6 @@ tmp <- tmp %>%
   )
 
 hospital_nopos_06 <- tmp %>% 
-  select(-geometry) %>% 
   left_join(
     admi %>% 
       select(base_ym:admi_nm) %>% 
@@ -292,31 +308,18 @@ hospital_nopos_06 <- tmp %>%
 ## 02.02.08. 주소로 미 매핑건 보정 후 매핑
 ##------------------------------------------------------------------------------
 tmp <- no_position %>% 
-  left_join(
-    hospital_nopos_01 %>% 
-      bind_rows(
-        hospital_nopos_02
-      ) %>% 
-      bind_rows(
-        hospital_nopos_03
-      ) %>% 
-      bind_rows(
-        hospital_nopos_04
-      ) %>% 
-      bind_rows(
-        hospital_nopos_05
-      ) %>% 
-      bind_rows(
-        hospital_nopos_06
-      ),          
-    by = c("hospital_nm", "class_cd", "class_nm", "post_cd", "address", 
-           "open_date", "lon", "lat")
-  ) %>% 
-  filter(is.na(admi_cd)) %>% 
-  select(-(base_ym:admi_nm)) 
-
-
-tmp <- tmp %>% 
+  setdiff(hospital_nopos_01 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_02 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_03 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_04 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_05 %>%
+            select(names(no_position))) %>% 
+  setdiff(hospital_nopos_06 %>%
+            select(names(no_position))) %>%   
   mutate(short_addr = stringr::str_replace(address, "([[:print:]]+)(-)([[:print:]]+)", "\\1")) %>% 
   inner_join(
     road_addr,
@@ -333,11 +336,11 @@ tmp <- tmp %>%
   )
 
 hospital_nopos_07 <- tmp %>% 
-  select(-geometry) %>% 
   left_join(
     admi %>% 
       select(base_ym:admi_nm) %>% 
-      st_centroid()
+      st_centroid(),
+    by = c("base_ym", "mega_nm", "mega_cd", "cty_nm", "cty_cd", "admi_nm", "admi_cd")
   ) %>% 
   select(hospital_nm:lat, base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm, geometry)
 
@@ -391,7 +394,7 @@ hospital_info <- hospital_pos %>%
 save(hospital_info, file = here::here("data", "hospital_info.rda"))
 
 ################################################################################
-## 03. 전국 약국 위치 통계 생성
+## 03. 전국 병원 위치 통계 생성
 ################################################################################
 ##==============================================================================
 ## 03.01. 광역시도 레벨 집계
@@ -399,11 +402,38 @@ save(hospital_info, file = here::here("data", "hospital_info.rda"))
 mega <- mega %>% 
   left_join(
     hospital_info %>% 
-      count(base_ym, mega_cd, mega_nm) %>% 
-      rename(hospital_cnt = n),
-    by = c("base_ym", "mega_cd", "mega_nm")
+      group_by(base_ym, mega_cd, mega_nm) %>% 
+      summarise(total_hospital_cnt = n(),
+                doctor_cnt = sum(doctor_cnt, na.rm = TRUE)) %>% 
+      left_join(
+        hospital_info %>% 
+          group_by(base_ym, mega_cd, mega_nm, class_nm) %>% 
+          summarise(hospital_cnt = n()) %>% 
+          tidyr::pivot_wider(names_from = "class_nm", values_from = "hospital_cnt") %>% 
+          mutate_if(is.integer, function(x) ifelse(is.na(x), 0, x)) %>%       
+          mutate(보건소 = 보건소 + 보건의료원) %>%
+          rename(hospital_cnt = 병원,
+                 pubhealth_center_cnt = 보건소,
+                 pubhealth_branch_cnt = 보건지소,
+                 pubhealth_clinic_cnt = 보건진료소,
+                 tertiary_hospital_cnt = 상급종합,
+                 nursing_hospital_cnt = 요양병원,
+                 clinic_cnt = 의원,
+                 mental_hospital_cnt = 정신병원,
+                 midwife_hospital_cnt = 조산원,
+                 general_hospital_cnt = 종합병원,
+                 dental_hospital_cnt = 치과병원,
+                 dental_clinic_cnt = 치과의원,
+                 kmedicine_hospital_cnt = 한방병원,
+                 kmedicine_clinic_cnt = 한의원) %>% 
+          select(-보건의료원),
+        by = c("base_ym", "mega_cd", "mega_nm")        
+      ),
+    by = c("base_ym", "mega_cd", "mega_nm")       
   ) %>% 
-  select(base_ym:high_schl_cnt, hospital_cnt)
+  select(base_ym:pharmacy_cnt, total_hospital_cnt:pubhealth_branch_cnt,
+         pubhealth_clinic_cnt, tertiary_hospital_cnt:kmedicine_clinic_cnt)
+
 
 
 ##==============================================================================
@@ -412,11 +442,37 @@ mega <- mega %>%
 cty <- cty %>% 
   left_join(
     hospital_info %>% 
-      count(base_ym, mega_cd, mega_nm, cty_cd, cty_nm) %>% 
-      rename(hospital_cnt = n),
-    by = c("base_ym", "mega_cd", "mega_nm", "cty_cd", "cty_nm")
+      group_by(base_ym, mega_cd, mega_nm, cty_cd, cty_nm) %>% 
+      summarise(total_hospital_cnt = n(),
+                doctor_cnt = sum(doctor_cnt, na.rm = TRUE)) %>% 
+      left_join(
+        hospital_info %>% 
+          group_by(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, class_nm) %>% 
+          summarise(hospital_cnt = n()) %>% 
+          tidyr::pivot_wider(names_from = "class_nm", values_from = "hospital_cnt") %>% 
+          mutate_if(is.integer, function(x) ifelse(is.na(x), 0, x)) %>%       
+          mutate(보건소 = 보건소 + 보건의료원) %>%
+          rename(hospital_cnt = 병원,
+                 pubhealth_center_cnt = 보건소,
+                 pubhealth_branch_cnt = 보건지소,
+                 pubhealth_clinic_cnt = 보건진료소,
+                 tertiary_hospital_cnt = 상급종합,
+                 nursing_hospital_cnt = 요양병원,
+                 clinic_cnt = 의원,
+                 mental_hospital_cnt = 정신병원,
+                 midwife_hospital_cnt = 조산원,
+                 general_hospital_cnt = 종합병원,
+                 dental_hospital_cnt = 치과병원,
+                 dental_clinic_cnt = 치과의원,
+                 kmedicine_hospital_cnt = 한방병원,
+                 kmedicine_clinic_cnt = 한의원) %>% 
+          select(-보건의료원),
+        by = c("base_ym", "mega_cd", "mega_nm", "cty_cd", "cty_nm")      
+      ),
+    by = c("base_ym", "mega_cd", "mega_nm", "cty_cd", "cty_nm")     
   ) %>% 
-  select(base_ym:high_schl_cnt, hospital_cnt)
+  select(base_ym:pharmacy_cnt, total_hospital_cnt:pubhealth_branch_cnt,
+         pubhealth_clinic_cnt, tertiary_hospital_cnt:kmedicine_clinic_cnt)
 
 
 ##==============================================================================
@@ -425,12 +481,38 @@ cty <- cty %>%
 admi <- admi %>% 
   left_join(
     hospital_info %>% 
-      count(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm) %>% 
-      rename(hospital_cnt = n),
-    by = c("base_ym", "mega_cd", "mega_nm", "cty_cd", "cty_nm", "admi_cd", "admi_nm")
+      group_by(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm) %>% 
+      summarise(total_hospital_cnt = n(),
+                doctor_cnt = sum(doctor_cnt, na.rm = TRUE)) %>% 
+      left_join(
+        hospital_info %>% 
+          group_by(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm, class_nm) %>% 
+          summarise(hospital_cnt = n()) %>% 
+          tidyr::pivot_wider(names_from = "class_nm", values_from = "hospital_cnt") %>% 
+          mutate_if(is.integer, function(x) ifelse(is.na(x), 0, x)) %>%       
+          mutate(보건소 = 보건소 + 보건의료원) %>%
+          rename(hospital_cnt = 병원,
+                 pubhealth_center_cnt = 보건소,
+                 pubhealth_branch_cnt = 보건지소,
+                 pubhealth_clinic_cnt = 보건진료소,
+                 tertiary_hospital_cnt = 상급종합,
+                 nursing_hospital_cnt = 요양병원,
+                 clinic_cnt = 의원,
+                 mental_hospital_cnt = 정신병원,
+                 midwife_hospital_cnt = 조산원,
+                 general_hospital_cnt = 종합병원,
+                 dental_hospital_cnt = 치과병원,
+                 dental_clinic_cnt = 치과의원,
+                 kmedicine_hospital_cnt = 한방병원,
+                 kmedicine_clinic_cnt = 한의원) %>% 
+          select(-보건의료원),
+        by = c("base_ym", "mega_cd", "mega_nm", "cty_cd", "cty_nm", "admi_cd", "admi_nm")    
+      ),
+    by = c("base_ym", "mega_cd", "mega_nm", "cty_cd", "cty_nm", "admi_cd", "admi_nm")    
   ) %>% 
-  mutate(hospital_cnt = ifelse(is.na(hospital_cnt), 0, hospital_cnt)) %>% 
-  select(base_ym:high_schl_cnt, hospital_cnt)
+  select(base_ym:pharmacy_cnt, total_hospital_cnt:pubhealth_branch_cnt,
+         pubhealth_clinic_cnt, tertiary_hospital_cnt:kmedicine_clinic_cnt) %>% 
+  mutate_if(is.numeric, function(x) ifelse(is.na(x), 0, x)) 
 
 
 ##==============================================================================

@@ -29,6 +29,23 @@
   \item{elemnt_schl_cnt}{numeric. 초등학교갯수.} 
   \item{mdle_schl_cnt}{numeric. 중학교갯수.} 
   \item{high_schl_cnt}{numeric. 고등학교갯수.} 
+  \item{pharmacy_cnt}{numeric. 약국갯수.} 
+  \item{total_hospital_cnt}{numeric. 총의료기관수.} 
+  \item{doctor_cnt}{numeric. 총의사수.} 
+  \item{hospital_cnt}{numeric. 병원수.} 
+  \item{pubhealth_center_cnt}{numeric. 보건소수.}    
+  \item{pubhealth_branch_cnt}{numeric. 보건지소수.} 
+  \item{pubhealth_clinic_cnt}{numeric. 약보건진료소수.} 
+  \item{tertiary_hospital_cnt}{numeric. 상급종합병원수.} 
+  \item{nursing_hospital_cnt}{numeric. 요양병원수.} 
+  \item{clinic_cnt}{numeric. 의원수.} 
+  \item{mental_hospital_cnt}{numeric. 정신병원수.}  
+  \item{midwife_hospital_cnt}{numeric. 조산원수.} 
+  \item{general_hospital_cnt}{numeric. 종합병원수.} 
+  \item{dental_hospital_cnt}{numeric. 치과병원수.} 
+  \item{dental_clinic_cnt}{numeric. 치과의원수.} 
+  \item{kmedicine_hospital_cnt}{numeric. 한방병원수.} 
+  \item{kmedicine_clinic_cnt}{numeric. 한의원수.} 
   \item{geometry}{MULTIPOLYGON. 지도 polygons.}
 }
 }
