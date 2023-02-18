@@ -36,7 +36,7 @@
 #'   \item{hospital_cnt}{numeric. 병원수.} 
 #'   \item{pubhealth_center_cnt}{numeric. 보건소수.}    
 #'   \item{pubhealth_branch_cnt}{numeric. 보건지소수.} 
-#'   \item{pubhealth_clinic_cnt}{numeric. 약보건진료소수.} 
+#'   \item{pubhealth_clinic_cnt}{numeric. 보건진료소수.} 
 #'   \item{tertiary_hospital_cnt}{numeric. 상급종합병원수.} 
 #'   \item{nursing_hospital_cnt}{numeric. 요양병원수.} 
 #'   \item{clinic_cnt}{numeric. 의원수.} 
