@@ -1,19 +1,26 @@
 ---
-title: "Introduce bitSpatial"
-author: "Choonghyun Ryu"
-date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Introduce bitSpatial}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: github_document
 ---
 
-```{r environment, echo = FALSE, message = FALSE, warning=FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "", out.width = "600px", dpi = 70)
-options(tibble.print_min = 4L, tibble.print_max = 4L)
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
 ```
 
+## 설치하기
+
+bitSpatial 패키지는 [GitHub](https://github.com/)으로부터 다음과 같이 설치합니다.
+
+``` r
+# install.packages("devtools")
+devtools::install_github("bit2r/bitSpatial")
+```
 
 ## 배경
 
@@ -29,7 +36,7 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 [^1]: http://nationalatlas.ngii.go.kr/
 
 ```{r, echo=FALSE, out.width = "85%", fig.align='center', fig.cap="소스: http://nationalatlas.ngii.go.kr/pages/page_1217.php"}
-knitr::include_graphics("img/kor_hi_54-2.jpg")
+knitr::include_graphics("man/figures/kor_hi_54-2.jpg")
 ```
 
 이를 기준으로 행정구역 체계를 일반화하기 위해서 광역시도 > 시군구 > 읍면동 레벨의 3단계 계층을 생각해볼 수 있습니다.
@@ -57,7 +64,7 @@ knitr::include_graphics("img/kor_hi_54-2.jpg")
 행정구역 체계는 변화합니다. 다음 그림은 광역시도 레벨의 행정구역 체계 변경 히스토리입니다.
 
 ```{r, echo=FALSE, out.width = "85%", fig.align='center', fig.cap="소스: http://nationalatlas.ngii.go.kr/pages/page_1217.php"}
-knitr::include_graphics("img/kor_hi_54-1.jpg")
+knitr::include_graphics("man/figures/kor_hi_54-1.jpg")
 ``` 
 
 지역에 대한 통계가 현황 분석을 목적으로 한다면 문제가 없겠지만, 시점별 통계의 변화를 살피는 추이분석을 수행할 경우에는 문제가 발생합니다.
@@ -231,7 +238,7 @@ thematic_map(zoom = "cty",
 
 다음은 서울 양천구의 행정동별 평균연령 현황입니다. 양천구의 기하학적 모습이 마치 강아지와 닯았습니다.
 
-```{r, warning=FALSE, fig.height=7.1, fig.width=8, fig.align='center'}
+```{r, warning=FALSE, fig.height=7.1, fig.width=8, out.width="70%", fig.align='center'}
 thematic_map(zoom = "admi", 
              subset = mega_nm == "서울특별시" & cty_nm %in% "양천구", 
              stat = "age_mean", 
@@ -264,7 +271,7 @@ thematic_map(zoom = "admi",
     - 기본값은 NULL        
 
 
-```{r, warning=FALSE, fig.height=8.7, fig.width=6, fig.align='center'}
+```{r, warning=FALSE, fig.height=8.7, fig.width=6, out.width="60%", fig.align='center'}
 thematic_map(zoom = "admi",
              subset = cty_nm %in% "노원구",
              stat = "household", 
@@ -324,6 +331,4 @@ ggplot() +
        subtitle = "출처: 공공데이터포털의 전국 초중등학교 위치 표준데이터") +
   theme_custom_map()
 ```
-
-
 

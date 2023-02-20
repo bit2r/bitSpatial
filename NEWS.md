@@ -1,8 +1,10 @@
-# bitSpatial 0.2.5.9000
+# bitSpatial 0.2.5.9001
 
 ## NEW FEATURES
 
 * 패키지 소개 Vignette 추가. (#27).
+
+* README 추가. (#26).
 
     
     

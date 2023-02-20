@@ -75,13 +75,25 @@ stats_info
 ## ---- warning=FALSE, fig.height=7.1, fig.width=8, fig.align='center'----------
 pos_school <- school %>% 
   filter(mega_nm %in% "서울특별시") %>% 
-  filter(cty_nm %in% "양천구") %>% 
   filter(school_class %in% "초등학교") %>% 
   st_as_sf(coords = c("lon", "lat"), crs = 4326)
 
-thematic_map(zoom = "admi", subset = mega_nm == "서울특별시" & cty_nm %in% "양천구", 
-             stat = "household", palette = "Blues", label = "name",
-             title = "서울 양천구 가구수 대비 초등학교 분포",
-             subtitle = "색상: 가구수의 규모 그라데이션, 포인트: 초등학교 학교 위치") +
-  geom_sf(data = pos_school, size = 3, col = "red") 
+ggplot() +
+  stat_density_2d(data = pos_school, 
+                  mapping = aes(x = purrr::map_dbl(geometry, ~.[1]),
+                                y = purrr::map_dbl(geometry, ~.[2]),
+                                fill = stat(density)),
+                  geom = 'tile',
+                  contour = FALSE,
+                  alpha = 0.7) +
+  scale_fill_viridis_c(option = "viridis", direction = -1) +
+  geom_sf(data = cty %>% 
+            filter(mega_nm %in% "서울특별시"),
+          color = "grey30", fill = NA, linewidth = 0.8) +
+  geom_sf(data = pos_school, color = "blue") +  
+  xlim(126.75, 127.22) + 
+  ylim(37.42, 37.71) + 
+  labs(title = "서울특별시 초등학교 분포 현황",
+       subtitle = "출처: 공공데이터포털의 전국 초중등학교 위치 표준데이터") +
+  theme_custom_map()
 
