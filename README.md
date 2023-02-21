@@ -29,6 +29,9 @@ devtools::install_github("bit2r/bitSpatial")
 
 <img src="man/figures/kor_hi_54-2.jpg" alt="소스: http://nationalatlas.ngii.go.kr/pages/page_1217.php" width="85%" style="display: block; margin: auto;" />
 
+삽화소스: [국토지리정보원 청소년을 위한
+국가지집](http://nationalatlas.ngii.go.kr/pages/page_1217.php)
+
 이를 기준으로 행정구역 체계를 일반화하기 위해서 광역시도 \> 시군구 \>
 읍면동 레벨의 3단계 계층을 생각해볼 수 있습니다.
 
@@ -57,6 +60,9 @@ devtools::install_github("bit2r/bitSpatial")
 변경 히스토리입니다.
 
 <img src="man/figures/kor_hi_54-1.jpg" alt="소스: http://nationalatlas.ngii.go.kr/pages/page_1217.php" width="85%" style="display: block; margin: auto;" />
+
+삽화소스: [국토지리정보원 청소년을 위한
+국가지집](http://nationalatlas.ngii.go.kr/pages/page_1217.php)
 
 지역에 대한 통계가 현황 분석을 목적으로 한다면 문제가 없겠지만, 시점별
 통계의 변화를 살피는 추이분석을 수행할 경우에는 문제가 발생합니다.
