@@ -6,6 +6,13 @@
 
 * README 추가. (#26).
 
+## BUG FIXS
+  
+* Ubuntu에서 위도/경도로 행정구역 코드와 이름 가져오기 에러 수정. (#28).
+    - position2mega()
+    - position2cty()
+    - position2admi()
+    
     
     
 # bitSpatial 0.2.4.

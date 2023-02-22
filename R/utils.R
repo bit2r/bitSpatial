@@ -112,14 +112,25 @@ position2mega <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) 
 
   postions <- data.frame(lon = x, lat = y)
   
-  result <- postions %>% 
-    st_as_sf(coords = c("lon", "lat")) %>% 
-    st_set_crs(crsWGS84) %>% 
-    st_intersects(mega) %>% 
-    as.integer() %>% 
-    mega[., ] %>% 
-    select(base_ym:mega_nm) %>% 
-    st_drop_geometry() 
+  # result <- postions %>% 
+  #   st_as_sf(coords = c("lon", "lat")) %>% 
+  #   st_set_crs(crsWGS84) %>% 
+  #   st_intersects(mega) %>% 
+  #   as.integer() %>% 
+  #   mega[., ] %>% 
+  #   select(base_ym:mega_nm) %>% 
+  #   st_drop_geometry() 
+  
+  suppressWarnings(
+    result <- postions %>%
+      st_as_sf(coords = c("lon", "lat"), crs = crsWGS84) %>% 
+      st_intersects(mega %>%
+                      st_set_crs(crsWGS84)) %>%
+      as.integer() %>%
+      mega[., ] %>%
+      select(base_ym:admi_nm) %>%
+      st_drop_geometry()
+  )
   
   postions %>% 
     bind_cols(
@@ -149,15 +160,26 @@ position2cty <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) {
   
   postions <- data.frame(lon = x, lat = y)
   
-  result <- postions %>% 
-    st_as_sf(coords = c("lon", "lat")) %>% 
-    st_set_crs(crsWGS84) %>% 
-    st_intersects(cty) %>% 
-    as.integer() %>% 
-    cty[., ] %>% 
-    select(base_ym:cty_nm) %>% 
-    st_drop_geometry() 
+  # result <- postions %>% 
+  #   st_as_sf(coords = c("lon", "lat")) %>% 
+  #   st_set_crs(crsWGS84) %>% 
+  #   st_intersects(cty) %>% 
+  #   as.integer() %>% 
+  #   cty[., ] %>% 
+  #   select(base_ym:cty_nm) %>% 
+  #   st_drop_geometry() 
     
+  suppressWarnings(
+    result <- postions %>%
+      st_as_sf(coords = c("lon", "lat"), crs = crsWGS84) %>% 
+      st_intersects(cty %>%
+                      st_set_crs(crsWGS84)) %>%
+      as.integer() %>%
+      cty[., ] %>%
+      select(base_ym:admi_nm) %>%
+      st_drop_geometry()
+  )
+  
   postions %>% 
     bind_cols(
       result
@@ -187,15 +209,26 @@ position2admi <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) 
   
   postions <- data.frame(lon = x, lat = y)
   
-  result <- postions %>% 
-    st_as_sf(coords = c("lon", "lat")) %>% 
-    st_set_crs(crsWGS84) %>% 
-    st_intersects(admi) %>% 
-    as.integer() %>% 
-    admi[., ] %>% 
-    select(base_ym:admi_nm) %>% 
-    st_drop_geometry() 
+  # result <- postions %>% 
+  #   st_as_sf(coords = c("lon", "lat")) %>% 
+  #   st_set_crs(crsWGS84) %>% 
+  #   st_intersects(admi) %>% 
+  #   as.integer() %>% 
+  #   admi[., ] %>% 
+  #   select(base_ym:admi_nm) %>% 
+  #   st_drop_geometry() 
   
+  suppressWarnings(
+    result <- postions %>%
+      st_as_sf(coords = c("lon", "lat"), crs = crsWGS84) %>% 
+      st_intersects(admi %>%
+                      st_set_crs(crsWGS84)) %>%
+      as.integer() %>%
+      admi[., ] %>%
+      select(base_ym:admi_nm) %>%
+      st_drop_geometry()
+  )
+
   postions %>% 
     bind_cols(
       result
