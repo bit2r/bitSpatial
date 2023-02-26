@@ -46,6 +46,15 @@
   \item{dental_clinic_cnt}{numeric. 치과의원수.} 
   \item{kmedicine_hospital_cnt}{numeric. 한방병원수.} 
   \item{kmedicine_clinic_cnt}{numeric. 한의원수.} 
+  \item{store_cnt_leisure}{numeric. 관광/여가/오락 업체수.} 
+  \item{store_cnt_estate}{numeric. 부동산 업체수.} 
+  \item{store_cnt_service}{numeric. 생활서비스 업체수.} 
+  \item{store_cnt_retail}{numeric. 소매 업체수.} 
+  \item{store_cnt_acomodt}{numeric. 숙박 업체수.} 
+  \item{store_cnt_sports}{numeric. 스포츠 업체수.} 
+  \item{store_cnt_food}{numeric. 음식 업체수.} 
+  \item{store_cnt_edu}{numeric. 학문/교육 업체수.} 
+  
   \item{geometry}{MULTIPOLYGON. 지도 polygons.}
 }
 }

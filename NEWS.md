@@ -1,4 +1,4 @@
-# bitSpatial 0.2.6.9000
+# bitSpatial 0.2.6.9001
 
 ## NEW FEATURES
 

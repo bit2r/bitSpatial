@@ -159,3 +159,92 @@ save(store_info_seoul, file = here::here("data", "store_info_seoul.rda"))
 save(store_info_gyeonggi, file = here::here("data", "store_info_gyeonggi.rda"))
 save(store_info_middle, file = here::here("data", "store_info_middle.rda"))
 save(store_info_south, file = here::here("data", "store_info_south.rda"))
+
+
+################################################################################
+## 04. 전국 상가 위치 통계 생성
+################################################################################
+##==============================================================================
+## 04.01. 광역시도 레벨 집계
+##==============================================================================
+mega <- mega %>% 
+  left_join(
+    store_info %>% 
+      count(mega_cd, industry_l_nm) %>% 
+      tidyr::pivot_wider(names_from = industry_l_nm, values_from = n) %>% 
+      rename(store_cnt_leisure = `관광/여가/오락`,
+             store_cnt_estate = 부동산,
+             store_cnt_service = 생활서비스,
+             store_cnt_retail = 소매,
+             store_cnt_acomodt = 숙박,
+             store_cnt_sports = 스포츠,
+             store_cnt_food = 음식,
+             store_cnt_edu = `학문/교육`),
+    by = c("mega_cd")       
+  ) %>% 
+  select(base_ym:kmedicine_clinic_cnt, store_cnt_leisure:store_cnt_edu,
+         geometry)
+
+
+
+##==============================================================================
+## 03.02. 시군구 레벨 집계
+##==============================================================================
+cty <- cty %>% 
+  left_join(
+    store_info %>% 
+      count(cty_cd, industry_l_nm) %>% 
+      tidyr::pivot_wider(names_from = industry_l_nm, values_from = n) %>% 
+      rename(store_cnt_leisure = `관광/여가/오락`,
+             store_cnt_estate = 부동산,
+             store_cnt_service = 생활서비스,
+             store_cnt_retail = 소매,
+             store_cnt_acomodt = 숙박,
+             store_cnt_sports = 스포츠,
+             store_cnt_food = 음식,
+             store_cnt_edu = `학문/교육`),
+    by = c("cty_cd")       
+  ) %>% 
+  select(base_ym:pubhealth_center_cnt, pubhealth_branch_cnt, pubhealth_clinic_cnt,
+         tertiary_hospital_cnt:clinic_cnt, mental_hospital_cnt, mental_hospital_cnt,
+         midwife_hospital_cnt, general_hospital_cnt:kmedicine_clinic_cnt,
+         store_cnt_leisure:store_cnt_edu, geometry) %>% 
+  mutate_at(vars(matches("store_cnt_")), function(x) ifelse(is.na(x), 0, x)) 
+
+
+##==============================================================================
+## 03.03. 읍면동 레벨 집계
+##==============================================================================
+admi <- admi %>% 
+  left_join(
+    store_info %>% 
+      count(admi_cd, industry_l_nm) %>% 
+      tidyr::pivot_wider(names_from = industry_l_nm, values_from = n) %>% 
+      rename(store_cnt_leisure = `관광/여가/오락`,
+             store_cnt_estate = 부동산,
+             store_cnt_service = 생활서비스,
+             store_cnt_retail = 소매,
+             store_cnt_acomodt = 숙박,
+             store_cnt_sports = 스포츠,
+             store_cnt_food = 음식,
+             store_cnt_edu = `학문/교육`),
+    by = c("admi_cd")       
+  ) %>% 
+  select(base_ym:doctor_cnt, hospital_cnt, pubhealth_center_cnt, 
+         pubhealth_branch_cnt, pubhealth_clinic_cnt, tertiary_hospital_cnt, 
+         nursing_hospital_cnt, clinic_cnt, mental_hospital_cnt, 
+         midwife_hospital_cnt, general_hospital_cnt, dental_hospital_cnt, 
+         dental_clinic_cnt, kmedicine_hospital_cnt, kmedicine_clinic_cnt, 
+         store_cnt_leisure, store_cnt_estate, store_cnt_service, 
+         store_cnt_retail, store_cnt_acomodt, store_cnt_sports, 
+         store_cnt_food, store_cnt_edu, geometry) %>% 
+  mutate_at(vars(matches("store_cnt_")), function(x) ifelse(is.na(x), 0, x)) 
+
+
+##==============================================================================
+## 03.04. 지도 데이터 저장
+##==============================================================================
+save(mega, file = here::here("data", "mega.rda"))
+save(cty, file = here::here("data", "cty.rda"))
+save(admi, file = here::here("data", "admi.rda"))
+
