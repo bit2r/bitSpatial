@@ -1,4 +1,25 @@
-# bitSpatial 0.2.5.9001
+# bitSpatial 0.2.6.9000
+
+## NEW FEATURES
+
+* 전국 상가업소 위치 정보 데이터 추가. (#29).
+    - store_info_seoul
+    - store_info_gyeonggi
+    - store_info_middle
+    - store_info_south
+
+* 수치지도 데이터에 상가업소 갯수 데이터 추가. (#29). NOT_YET    
+    
+## BUG FIXS
+  
+* 증평군 시군구 코드 오류 수정. (#30).
+    - cty
+    - hospital_info
+    - pharmacy_info
+    
+    
+    
+# bitSpatial 0.2.5
 
 ## NEW FEATURES
 
