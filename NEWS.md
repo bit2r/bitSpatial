@@ -8,7 +8,7 @@
     - store_info_middle
     - store_info_south
 
-* 수치지도 데이터에 상가업소 갯수 데이터 추가. (#29). NOT_YET    
+* 수치지도 데이터에 상가업소 갯수 데이터 추가. (#29). 
     
 ## BUG FIXS
   
