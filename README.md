@@ -1,6 +1,8 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# bitSpatial <img src="man/figures/bitSpatial_logo.png" align="right" height="120" width="103.6"/>
+
 ## 설치하기
 
 bitSpatial 패키지는 [GitHub](https://github.com/)으로부터 다음과 같이
