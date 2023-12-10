@@ -198,7 +198,7 @@ thematic_map(
 
 #### 광역시도별 인구분포
 
-```{r, warning=FALSE, fig.height=7.48, fig.width=9.5, fig.align='center'}
+```{r, warning=FALSE, message=FALSE, fig.height=7.48, fig.width=9.5, fig.align='center'}
 library(bitSpatial)
 
 thematic_map(stat = "인구수", 
