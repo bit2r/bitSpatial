@@ -297,7 +297,8 @@ thematic_map(zoom = "admi",
 
 ```{r, include=TRUE}
 stats_info |> 
-  gt::gt()
+  gt::gt() |> 
+  gt::as_raw_html()
 ```
 
 
