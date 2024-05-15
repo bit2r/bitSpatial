@@ -295,7 +295,7 @@ thematic_map(zoom = "admi",
 
 `stats_info`에 패키지에서 제공하는 집계된 통계 현황이 있습니다. 통계 아이디와 이름이 있는데 모두 `thematic_map()` 함수에서 주제도를 그릴 때 통계 정보를 식별할 수 있는 `stat` 인수에 사용 가능합니다.
 
-```{r}
+```{r, include=TRUE}
 stats_info |> 
   gt::gt()
 ```
