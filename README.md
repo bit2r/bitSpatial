@@ -29,7 +29,14 @@ devtools::install_github("bit2r/bitSpatial")
 8개의 도(경기, 강원, 충북, 충남, 전북, 전남, 경북, 경남), 1개의
 특별자치시(세종), 1개의 특별자치도(제주)로 구성되어 있습니다.[^1]
 
-<img src="man/figures/kor_hi_54-2.jpg" alt="소스: http://nationalatlas.ngii.go.kr/pages/page_1217.php" width="85%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/kor_hi_54-2.jpg" alt="소스: http://nationalatlas.ngii.go.kr/pages/page_1217.php" width="85%" />
+<p class="caption">
+소스: <http://nationalatlas.ngii.go.kr/pages/page_1217.php>
+</p>
+
+</div>
 
 삽화소스: [국토지리정보원 청소년을 위한
 국가지집](http://nationalatlas.ngii.go.kr/pages/page_1217.php)
@@ -61,7 +68,14 @@ devtools::install_github("bit2r/bitSpatial")
 행정구역 체계는 변화합니다. 다음 그림은 광역시도 레벨의 행정구역 체계
 변경 히스토리입니다.
 
-<img src="man/figures/kor_hi_54-1.jpg" alt="소스: http://nationalatlas.ngii.go.kr/pages/page_1217.php" width="85%" style="display: block; margin: auto;" />
+<div class="figure" style="text-align: center">
+
+<img src="man/figures/kor_hi_54-1.jpg" alt="소스: http://nationalatlas.ngii.go.kr/pages/page_1217.php" width="85%" />
+<p class="caption">
+소스: <http://nationalatlas.ngii.go.kr/pages/page_1217.php>
+</p>
+
+</div>
 
 삽화소스: [국토지리정보원 청소년을 위한
 국가지집](http://nationalatlas.ngii.go.kr/pages/page_1217.php)
@@ -93,12 +107,12 @@ devtools::install_github("bit2r/bitSpatial")
 문제는 법정동:행정동의 관계는 M:N의 관계로, 통계 집계에 있어서 상호
 매핑하기 어렵기 때문에 하나의 집계 기준을 가져가야 한다는 점입니다.
 
-- 법정동은 변동이 적기 때문에 행정동의 집계기준으로 가져가면 추이분석
+- 법정동은 변동이 적기 때문에 법정동의 집계기준으로 가져가면 추이분석
   등의 장점이 있지만,
   - 공공 데이터에서 법정동 기준으로 배포하는 통계가 적습니다.
-- 법정동은 변동이 많기 때문에 행정동의 집계기준으로 가져가면 추이분석
+- 행정동은 변동이 많기 때문에 행정동의 집계기준으로 가져가면 추이분석
   등의 단점이 있지만,
-  - 공공 데이터에서 법정동 기준으로 배포하는 통계가 많습니다.
+  - 공공 데이터에서 행정동 기준으로 배포하는 통계가 많습니다.
   - 많은 파생 통계가 인구통계 기반으로 작성되기 때문에 인구통계는 중요한
     통계입니다.
 
@@ -238,18 +252,6 @@ thematic_map(
 
 ``` r
 library(bitSpatial)
-#> Loading required package: dplyr
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-#> Loading required package: ggplot2
-#> Loading required package: sf
-#> Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE
 
 thematic_map(stat = "인구수", 
              title = "광역시도별 인구분포 현황",
@@ -348,39 +350,526 @@ thematic_map(zoom = "admi",
 통계 정보를 식별할 수 있는 `stat` 인수에 사용 가능합니다.
 
 ``` r
-stats_info
-#>                  stats_id         stats_nm is_use
-#> 1               land_area             면적   TRUE
-#> 2              population           인구수   TRUE
-#> 3               household           가구수   TRUE
-#> 4           pop_per_hosue     가구당인구수   TRUE
-#> 5                pop_male       남성인구수   TRUE
-#> 6              pop_female       여성인구수   TRUE
-#> 7         male_per_female 여성대비남성인구   TRUE
-#> 8           age_mean_male     남성평균연령   TRUE
-#> 9         age_mean_female     여성평균연령   TRUE
-#> 10               age_mean         평균연령   TRUE
-#> 11        elemnt_schl_cnt       초등학교수   TRUE
-#> 12          mdle_schl_cnt         중학교수   TRUE
-#> 13          high_schl_cnt       고등학교수   TRUE
-#> 14           pharmacy_cnt           약국수   TRUE
-#> 15     total_hospital_cnt     총의료기관수   TRUE
-#> 16             doctor_cnt         총의사수   TRUE
-#> 17           hospital_cnt           병원수   TRUE
-#> 18   pubhealth_center_cnt         보건소수   TRUE
-#> 19   pubhealth_branch_cnt       보건지소수   TRUE
-#> 20   pubhealth_clinic_cnt     보건진료소수   TRUE
-#> 21  tertiary_hospital_cnt   상급종합병원수   TRUE
-#> 22   nursing_hospital_cnt       요양병원수   TRUE
-#> 23             clinic_cnt           의원수   TRUE
-#> 24    mental_hospital_cnt       정신병원수   TRUE
-#> 25   midwife_hospital_cnt         조산원수   TRUE
-#> 26   general_hospital_cnt       종합병원수   TRUE
-#> 27    dental_hospital_cnt       치과병원수   TRUE
-#> 28      dental_clinic_cnt       치과의원수   TRUE
-#> 29 kmedicine_hospital_cnt       한방병원수   TRUE
-#> 30   kmedicine_clinic_cnt         한의원수   TRUE
+stats_info |> 
+  gt::gt()
 ```
+
+<div id="bevkyngdby" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#bevkyngdby table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+&#10;#bevkyngdby thead, #bevkyngdby tbody, #bevkyngdby tfoot, #bevkyngdby tr, #bevkyngdby td, #bevkyngdby th {
+  border-style: none;
+}
+&#10;#bevkyngdby p {
+  margin: 0;
+  padding: 0;
+}
+&#10;#bevkyngdby .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+&#10;#bevkyngdby .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+&#10;#bevkyngdby .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+&#10;#bevkyngdby .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+&#10;#bevkyngdby .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+&#10;#bevkyngdby .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+&#10;#bevkyngdby .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+&#10;#bevkyngdby .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+&#10;#bevkyngdby .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+&#10;#bevkyngdby .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+&#10;#bevkyngdby .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+&#10;#bevkyngdby .gt_from_md > :first-child {
+  margin-top: 0;
+}
+&#10;#bevkyngdby .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+&#10;#bevkyngdby .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+&#10;#bevkyngdby .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#bevkyngdby .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+&#10;#bevkyngdby .gt_row_group_first td {
+  border-top-width: 2px;
+}
+&#10;#bevkyngdby .gt_row_group_first th {
+  border-top-width: 2px;
+}
+&#10;#bevkyngdby .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#bevkyngdby .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+&#10;#bevkyngdby .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#bevkyngdby .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+&#10;#bevkyngdby .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#bevkyngdby .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+&#10;#bevkyngdby .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+&#10;#bevkyngdby .gt_left {
+  text-align: left;
+}
+&#10;#bevkyngdby .gt_center {
+  text-align: center;
+}
+&#10;#bevkyngdby .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+&#10;#bevkyngdby .gt_font_normal {
+  font-weight: normal;
+}
+&#10;#bevkyngdby .gt_font_bold {
+  font-weight: bold;
+}
+&#10;#bevkyngdby .gt_font_italic {
+  font-style: italic;
+}
+&#10;#bevkyngdby .gt_super {
+  font-size: 65%;
+}
+&#10;#bevkyngdby .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+&#10;#bevkyngdby .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+&#10;#bevkyngdby .gt_indent_1 {
+  text-indent: 5px;
+}
+&#10;#bevkyngdby .gt_indent_2 {
+  text-indent: 10px;
+}
+&#10;#bevkyngdby .gt_indent_3 {
+  text-indent: 15px;
+}
+&#10;#bevkyngdby .gt_indent_4 {
+  text-indent: 20px;
+}
+&#10;#bevkyngdby .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    &#10;    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="stats_id">stats_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="stats_nm">stats_nm</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="is_use">is_use</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="stats_id" class="gt_row gt_left">land_area</td>
+<td headers="stats_nm" class="gt_row gt_left">면적</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">population</td>
+<td headers="stats_nm" class="gt_row gt_left">인구수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">household</td>
+<td headers="stats_nm" class="gt_row gt_left">가구수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">pop_per_hosue</td>
+<td headers="stats_nm" class="gt_row gt_left">가구당인구수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">pop_male</td>
+<td headers="stats_nm" class="gt_row gt_left">남성인구수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">pop_female</td>
+<td headers="stats_nm" class="gt_row gt_left">여성인구수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">male_per_female</td>
+<td headers="stats_nm" class="gt_row gt_left">여성대비남성인구</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">age_mean_male</td>
+<td headers="stats_nm" class="gt_row gt_left">남성평균연령</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">age_mean_female</td>
+<td headers="stats_nm" class="gt_row gt_left">여성평균연령</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">age_mean</td>
+<td headers="stats_nm" class="gt_row gt_left">평균연령</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">elemnt_schl_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">초등학교수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">mdle_schl_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">중학교수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">high_schl_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">고등학교수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">pharmacy_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">약국수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">total_hospital_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">총의료기관수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">doctor_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">총의사수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">hospital_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">병원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">pubhealth_center_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">보건소수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">pubhealth_branch_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">보건지소수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">pubhealth_clinic_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">보건진료소수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">tertiary_hospital_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">상급종합병원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">nursing_hospital_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">요양병원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">clinic_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">의원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">mental_hospital_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">정신병원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">midwife_hospital_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">조산원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">general_hospital_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">종합병원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">dental_hospital_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">치과병원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">dental_clinic_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">치과의원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">kmedicine_hospital_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">한방병원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">kmedicine_clinic_cnt</td>
+<td headers="stats_nm" class="gt_row gt_left">한의원수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">store_cnt_leisure</td>
+<td headers="stats_nm" class="gt_row gt_left">관광여가오락업체수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">store_cnt_estate</td>
+<td headers="stats_nm" class="gt_row gt_left">부동산업체수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">store_cnt_service</td>
+<td headers="stats_nm" class="gt_row gt_left">생활서비스업체수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">store_cnt_retail</td>
+<td headers="stats_nm" class="gt_row gt_left">소매업체수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">store_cnt_acomodt</td>
+<td headers="stats_nm" class="gt_row gt_left">숙박업체수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">store_cnt_sports</td>
+<td headers="stats_nm" class="gt_row gt_left">스포츠업체수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">store_cnt_food</td>
+<td headers="stats_nm" class="gt_row gt_left">음식업체수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+    <tr><td headers="stats_id" class="gt_row gt_left">store_cnt_edu</td>
+<td headers="stats_nm" class="gt_row gt_left">학문교육업체수</td>
+<td headers="is_use" class="gt_row gt_center">TRUE</td></tr>
+  </tbody>
+  &#10;  
+</table>
+</div>
 
 ### 위치 데이터
 
