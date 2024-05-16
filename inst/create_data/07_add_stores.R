@@ -157,10 +157,10 @@ store_info_south <- store_info %>%
 ##==============================================================================
 ## 03.02. 분리한 데이터의 개별 저장
 ##==============================================================================
-save(store_info_seoul, file = here::here("data", "store_info_seoul.rda"))
-save(store_info_gyeonggi, file = here::here("data", "store_info_gyeonggi.rda"))
-save(store_info_middle, file = here::here("data", "store_info_middle.rda"))
-save(store_info_south, file = here::here("data", "store_info_south.rda"))
+save(store_info_seoul, file = here::here("data", "store_info_seoul.rda"), compress = "bzip2")
+save(store_info_gyeonggi, file = here::here("data", "store_info_gyeonggi.rda"), compress = "bzip2")
+save(store_info_middle, file = here::here("data", "store_info_middle.rda"), compress = "bzip2")
+save(store_info_south, file = here::here("data", "store_info_south.rda"), compress = "bzip2")
 
 
 ################################################################################
