@@ -46,15 +46,16 @@
   \item{dental_clinic_cnt}{numeric. 치과의원수.} 
   \item{kmedicine_hospital_cnt}{numeric. 한방병원수.} 
   \item{kmedicine_clinic_cnt}{numeric. 한의원수.} 
-  \item{store_cnt_leisure}{numeric. 관광/여가/오락 업체수.} 
-  \item{store_cnt_estate}{numeric. 부동산 업체수.} 
-  \item{store_cnt_service}{numeric. 생활서비스 업체수.} 
-  \item{store_cnt_retail}{numeric. 소매 업체수.} 
-  \item{store_cnt_acomodt}{numeric. 숙박 업체수.} 
-  \item{store_cnt_sports}{numeric. 스포츠 업체수.} 
-  \item{store_cnt_food}{numeric. 음식 업체수.} 
-  \item{store_cnt_edu}{numeric. 학문/교육 업체수.} 
-  
+  \item{store_cnt_retail}{numeric. 소매업체수.} 
+  \item{store_cnt_acomodt}{numeric. 숙박업체수.} 
+  \item{store_cnt_food}{numeric. 음식업체수.} 
+  \item{store_cnt_estate}{numeric. 부동산업체수.} 
+  \item{store_cnt_tech}{numeric. 기술업체수.}   
+  \item{store_cnt_lease}{numeric. 관리임대업체수.}   
+  \item{store_cnt_edu}{numeric. 교육서비스업체수.}   
+  \item{store_cnt_medical}{numeric. 보건의료업체수.}   
+  \item{store_cnt_leisure}{numeric. 스포츠여가업체수.} 
+  \item{store_cnt_service}{numeric. 개인서비스업체수.} 
   \item{geometry}{MULTIPOLYGON. 지도 polygons.}
 }
 }
@@ -73,7 +74,7 @@ data(admi)
 sf 클래스 객체로 만들어진 광역시도(mega), 시군구(cty), 읍면동(admi) 레벨의 수치지도 및 관련 통계
 }
 \details{
-sf 클래스 객체로 만들어진 데이터로서 2022년 6월 기준의 데이터입니다. 
+sf 클래스 객체로 만들어진 데이터로서 2023년 6월 기준의 데이터입니다. 
 읍면동 레벨의 데이터는 상위 시군구, 광역시도 정보를 포함하며, 
 시군구 레벨의 데이터는 상위 광역시도 정보를 포함합니다.
 }
