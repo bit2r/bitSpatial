@@ -50,9 +50,42 @@ school <- fnames %>%
 ##==============================================================================
 ## 01.02. 위치정보로 행정구역 매핑하기
 ##==============================================================================
+# load(here::here("raw", "sf", "admi_origin.rda"))
+
+position2admi_origin <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) {
+  proj <- match.arg(proj)
+  
+  if (proj != "WGS84") {
+    pos <- convert_projection(x, y, from = proj, to = "WGS84")
+    
+    x <- pos$lon
+    y <- pos$lat
+  }
+  
+  crsWGS84  <- 4326
+  
+  postions <- data.frame(lon = x, lat = y)
+  
+  suppressWarnings(
+    result <- postions %>%
+      st_as_sf(coords = c("lon", "lat"), crs = crsWGS84) %>% 
+      st_intersects(admi_origin %>%
+                      st_set_crs(crsWGS84)) %>%
+      as.integer() %>%
+      admi[., ] %>%
+      select(base_ym:admi_nm) %>%
+      st_drop_geometry()
+  )
+  
+  postions %>% 
+    bind_cols(
+      result
+    )
+}
+
 school <- school %>% 
   bind_cols(
-    position2admi(school$lon, school$lat) %>% 
+    position2admi_origin(school$lon, school$lat) %>% 
       select(mega_cd:admi_nm)
   ) 
 

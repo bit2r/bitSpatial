@@ -16,12 +16,12 @@ mega <- sf::read_sf(file_mega) |>
   mutate(base_ym = "202306") |> 
   select(base_ym, mega_cd, mega_nm, land_area)
 
+mega <- sf::st_transform(mega, 4326)
+
 ## Simplifying geospatial features
 ## 플로팅 속도 개선을 위해서 리아스식 해안의 복잡한 해안선을 심플하게 변경
 ## https://datascience.blog.wzb.eu/2021/03/15/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/
 mega <- rmapshaper::ms_simplify(mega, keep = 0.001, keep_shapes = FALSE)
-
-mega <- sf::st_transform(mega, 4326)
 
 object.size(mega) |>
   format(units = "auto")
@@ -49,12 +49,12 @@ cty <- sf::read_sf(file_cty) |>
   mutate(base_ym = "202306") |> 
   select(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, land_area)
 
+cty <- sf::st_transform(cty, 4326)
+
 ## Simplifying geospatial features
 ## 플로팅 속도 개선을 위해서 리아스식 해안의 복잡한 해안선을 심플하게 변경
 ## https://datascience.blog.wzb.eu/2021/03/15/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/
 cty <- rmapshaper::ms_simplify(cty, keep = 0.01, keep_shapes = FALSE)
-
-cty <- sf::st_transform(cty, 4326)
 
 object.size(cty) |>
   format(units = "auto")
@@ -83,17 +83,16 @@ admi <- sf::read_sf(file_admi) |>
   mutate(base_ym = "202306") |>  
   select(base_ym, mega_cd:cty_nm, admi_cd, admi_nm, land_area)
 
+admi <- sf::st_transform(admi, 4326)
+
 ## 위경도로 읍면동을매핑하기 위해서 저장
-admi_origin <- admi
-save(admi_origin, file = here::here("raw", "sf", "admi_origin.rda"))
+admi_origin <- admi 
 
 ## Simplifying geospatial features
 ## 플로팅 속도 개선을 위해서 리아스식 해안의 복잡한 해안선을 심플하게 변경
 ## https://datascience.blog.wzb.eu/2021/03/15/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/
 admi <- rmapshaper::ms_simplify(admi, keep = 0.01, keep_shapes = FALSE, 
                                 sys = TRUE, sys_mem = 15)
-
-admi <- sf::st_transform(admi, 4326)
 
 object.size(admi) |>
   format(units = "auto")
@@ -181,6 +180,18 @@ admi <- admi |>
     by = c("base_ym", "mega_nm", "cty_nm", "admi_nm")
   ) |> 
   select(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm, land_area)
+
+admi_origin <- admi_origin |> 
+  select(-mega_cd, -cty_cd, -admi_cd) |> 
+  left_join(
+    admi_district |> 
+      distinct(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm),
+    by = c("base_ym", "mega_nm", "cty_nm", "admi_nm")
+  ) |> 
+  select(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm, land_area)
+
+## 위경도로 읍면동을매핑하기 위해서 저장
+save(admi_origin, file = here::here("raw", "sf", "admi_origin.rda"))
 
 
 ##==============================================================================

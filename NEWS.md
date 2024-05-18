@@ -1,4 +1,4 @@
-# bitSpatial 0.2.7.9000
+# bitSpatial 0.2.7.9001
 
 ## MAJOR CHANGES
 
@@ -54,6 +54,12 @@
             - 상가업소번호 : 상가업소번호를 새롭게 생성하여 과거 데이터와 연계 불가 
         - stats_info
 
+## BUG FIXS
+  
+* 약국수 및 병원수 집계 오류 수정. (#34).
+    - pharmacy_info
+    - hospital_info
+    
     
     
 # bitSpatial 0.2.6

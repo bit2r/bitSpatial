@@ -1,8 +1,8 @@
 Package: bitSpatial
 Type: Package
 Title: Tools for Spatial Analysis in Korean Regions
-Version: 0.2.7.9000
-Date: 2024-05-16
+Version: 0.2.7.9001
+Date: 2024-05-18
 Authors@R: c(
   person("Choonghyun", "Ryu",, "choonghyun.ryu@gmail.com", role = c("aut", "cre"))
   )
