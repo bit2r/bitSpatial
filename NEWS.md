@@ -1,4 +1,4 @@
-# bitSpatial 0.2.7.9001
+# bitSpatial 0.2.7.9002
 
 ## MAJOR CHANGES
 
@@ -59,6 +59,9 @@
 * 약국수 및 병원수 집계 오류 수정. (#34).
     - pharmacy_info
     - hospital_info
+    
+* legend binning 오류. (#35).
+    - thematic_map()
     
     
     
