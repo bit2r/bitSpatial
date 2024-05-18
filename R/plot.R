@@ -171,7 +171,8 @@ thematic_map <- function(
         # brks <- unique(round(brks$brks))
         brks_min <-  floor(brks$brks[1])
         brks_max <-  ceiling(brks$brks[length(brks$brks)])
-        brks_mid <-  round(brks$brks[2:length(brks$brks)-1])
+        # overflow of the count of legend (#36) 수정
+        brks_mid <-  round(brks$brks[2:(length(brks$brks)-1)])
         brks <- unique(c(brks_min, brks_mid, brks_max))
       }         
     })

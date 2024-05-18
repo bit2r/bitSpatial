@@ -60,8 +60,11 @@
     - pharmacy_info
     - hospital_info
     
-* legend binning 오류. (#35).
+* legend binning 오류 수정. (#35).
     - thematic_map()
+    
+* overflow of the count of legend 오류 수정. (#36).
+    - thematic_map()    
     
     
     
