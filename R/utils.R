@@ -128,7 +128,7 @@ position2mega <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) 
                       st_set_crs(crsWGS84)) %>%
       as.integer() %>%
       mega[., ] %>%
-      select(base_ym:admi_nm) %>%
+      select(base_ym:mega_nm) %>%
       st_drop_geometry()
   )
   
@@ -176,7 +176,7 @@ position2cty <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) {
                       st_set_crs(crsWGS84)) %>%
       as.integer() %>%
       cty[., ] %>%
-      select(base_ym:admi_nm) %>%
+      select(base_ym:cty_nm) %>%
       st_drop_geometry()
   )
   

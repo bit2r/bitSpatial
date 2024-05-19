@@ -5,7 +5,7 @@
 \title{주제도 시각화}
 \usage{
 thematic_map(
-  zoom = c("mega", "cty", "admi")[1],
+  zoom = c("mega", "cty", "admi"),
   subset = NULL,
   stat = NULL,
   polygon = TRUE,

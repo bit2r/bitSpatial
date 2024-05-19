@@ -66,6 +66,10 @@
 * overflow of the count of legend 오류 수정. (#36).
     - thematic_map()    
     
+* 위도/경도로 행정구역 코드와 이름 가져오기 에러 수정. (#37).
+    - position2mega
+    - position2cty
+    
     
     
 # bitSpatial 0.2.6
