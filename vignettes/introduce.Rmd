@@ -24,7 +24,7 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 
 ### 1. 행정구역 체계의 일반화 이슈
 
-현재 우리나라 행정구역 체계는 다음 그림과 같습니다. 행정 구역은 크게 1개의 특별시(서울), 6개의 광역시(부산, 대구, 인천, 광주,대전, 울산), 8개의 도(경기, 강원, 충북, 충남, 전북, 전남, 경북, 경남), 1개의 특별자치시(세종), 1개의 특별자치도(제주)로 구성되어 있습니다.[^1]
+현재 우리나라 행정구역 체계는 다음 그림과 같습니다. 행정 구역은 크게 1개의 특별시(서울), 6개의 광역시(부산, 대구, 인천, 광주, 대전, 울산), 6개의 도(경기, 충북, 충남, 전남, 경북, 경남), 1개의 특별자치시(세종), 3개의 특별자치도(강원, 전북, 제주)로 구성되어 있습니다.[^1]
 
 [^1]: http://nationalatlas.ngii.go.kr/
 
@@ -91,7 +91,7 @@ knitr::include_graphics("img/kor_hi_54-1.jpg")
 
 지번 주소에서 이제는 도로명 주소가 표준 주소 체계로 사용되고 있습니다. 그러나 우리가 집계해야할 지역기반의 Raw 데이터는 지번주소, 도로명주소가 혼용되어 있습니다. 과거의 통계를 무시하고 항상 현재 기준의 통계를 사용할 수 없으며, 경우에 따라서 현재 기준의 Raw 데이터가 과거 주소 체계로 배포되는 문제도 있습니다.
 
-도로명 주소는 길게 이어진 도로를 기준으로 만들어진 체계입니다. 구역을 분할하는 기준이 아니어서, 어떤 도로는 여러 구역을 넘나들면 이어져 있기도합니다. 그래서 도로면 주소 정보로 행정동이나 법정동으로 집계하는 것은 그리 쉬운 작업은 아닙니다.
+도로명 주소는 길게 이어진 도로를 기준으로 만들어진 체계입니다. 구역을 분할하는 기준이 아니어서, 어떤 도로는 여러 구역을 넘나들면 이어져 있기도합니다. 그래서 도로명 주소 정보로 행정동이나 법정동으로 집계하는 것은 그리 쉬운 작업은 아닙니다.
 
 
 ### 5. 비표준화된 관리 체계 
@@ -129,6 +129,7 @@ knitr::include_graphics("img/kor_hi_54-1.jpg")
 - 수치지도와 조인할 수 있는 위치정보 데이터
     - 초중등학교 위치 데이터
     - 약국/병원 위치 데이터
+    - 상가 위치 데이터
 
 #### 지리 기반 연산을 위한 기능
 
@@ -156,12 +157,15 @@ knitr::include_graphics("img/kor_hi_54-1.jpg")
     - 인구통계
         - 행정안전부의 주민등록 인구 통계
         - https://jumin.mois.go.kr/index.jsp
-    - 초중고 학교 통계
+    - 초중고 학교 위치 정보
         - 공공데이터포털의 전국초중등학교위치표준데이터
         - https://www.data.go.kr/data/15021148/standard.do?recommendDataYn=Y
-    - 병원 및 약국 통계
+    - 병원 및 약국 위치 정보
         - 공공데이터 포털의 건강보험심사평가원_전국 병의원 및 약국 현황
         - https://www.data.go.kr/data/15051059/fileData.do
+    - 상가 위치 정보
+        - 공공데이터 포털의 소상공인시장진흥공단_상가(상권)정보
+        - https://www.data.go.kr/data/15083033/fileData.do  
         
         
 ## 주제도 그리기
@@ -301,24 +305,24 @@ stats_info
 위치 데이터인 학교위치, 약국위치, 병원위치를 주제도에 매시업하여 시각화가 가능합니다.
 
 ```{r, warning=FALSE, fig.height=7.1, fig.width=8, fig.align='center'}
-pos_school <- school %>% 
-  filter(mega_nm %in% "서울특별시") %>% 
-  filter(school_class %in% "초등학교") %>% 
+pos_school <- school |>  
+  filter(mega_nm %in% "서울특별시") |> 
+  filter(school_class %in% "초등학교") |> 
   st_as_sf(coords = c("lon", "lat"), crs = 4326)
 
 ggplot() +
   stat_density_2d(data = pos_school, 
                   mapping = aes(x = purrr::map_dbl(geometry, ~.[1]),
                                 y = purrr::map_dbl(geometry, ~.[2]),
-                                fill = stat(density)),
+                                fill = after_stat(density)),
                   geom = 'tile',
                   contour = FALSE,
                   alpha = 0.7) +
   scale_fill_viridis_c(option = "viridis", direction = -1) +
-  geom_sf(data = cty %>% 
+  geom_sf(data = cty |> 
             filter(mega_nm %in% "서울특별시"),
           color = "grey30", fill = NA, linewidth = 0.8) +
-  geom_sf(data = pos_school, color = "blue") +  
+  geom_sf(data = pos_school, color = "blue", size = 0.5) +  
   xlim(126.75, 127.22) + 
   ylim(37.42, 37.71) + 
   labs(title = "서울특별시 초등학교 분포 현황",

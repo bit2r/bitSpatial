@@ -25,9 +25,9 @@ devtools::install_github("bit2r/bitSpatial")
 ### 1. 행정구역 체계의 일반화 이슈
 
 현재 우리나라 행정구역 체계는 다음 그림과 같습니다. 행정 구역은 크게
-1개의 특별시(서울), 6개의 광역시(부산, 대구, 인천, 광주,대전, 울산),
-8개의 도(경기, 강원, 충북, 충남, 전북, 전남, 경북, 경남), 1개의
-특별자치시(세종), 1개의 특별자치도(제주)로 구성되어 있습니다.[^1]
+1개의 특별시(서울), 6개의 광역시(부산, 대구, 인천, 광주, 대전, 울산),
+6개의 도(경기, 충북, 충남, 전남, 경북, 경남), 1개의 특별자치시(세종),
+3개의 특별자치도(강원, 전북, 제주)로 구성되어 있습니다.[^1]
 
 <div class="figure" style="text-align: center">
 
@@ -126,7 +126,7 @@ devtools::install_github("bit2r/bitSpatial")
 
 도로명 주소는 길게 이어진 도로를 기준으로 만들어진 체계입니다. 구역을
 분할하는 기준이 아니어서, 어떤 도로는 여러 구역을 넘나들면 이어져
-있기도합니다. 그래서 도로면 주소 정보로 행정동이나 법정동으로 집계하는
+있기도합니다. 그래서 도로명 주소 정보로 행정동이나 법정동으로 집계하는
 것은 그리 쉬운 작업은 아닙니다.
 
 ### 5. 비표준화된 관리 체계
@@ -178,6 +178,7 @@ devtools::install_github("bit2r/bitSpatial")
 - 수치지도와 조인할 수 있는 위치정보 데이터
   - 초중등학교 위치 데이터
   - 약국/병원 위치 데이터
+  - 상가 위치 데이터
 
 #### 지리 기반 연산을 위한 기능
 
@@ -201,16 +202,20 @@ devtools::install_github("bit2r/bitSpatial")
     지역경계 수치지도
     - 행정동 기준
     - 매년 주기적으로 배포하는 장점으로 선정
+      - 매년 6월 기준으로 배포
 - 통계 및 집계 데이터
   - 인구통계
     - 행정안전부의 주민등록 인구 통계
     - <https://jumin.mois.go.kr/index.jsp>
-  - 초중고 학교 통계
+  - 초중고 학교 위치 정보
     - 공공데이터포털의 전국초중등학교위치표준데이터
     - <https://www.data.go.kr/data/15021148/standard.do?recommendDataYn=Y>
-  - 병원 및 약국 통계
+  - 병원 및 약국 위치 정보
     - 공공데이터 포털의 건강보험심사평가원_전국 병의원 및 약국 현황
     - <https://www.data.go.kr/data/15051059/fileData.do>
+  - 상가 위치 정보
+    - 공공데이터 포털의 소상공인시장진흥공단_상가(상권)정보
+    - <https://www.data.go.kr/data/15083033/fileData.do>
 
 ## 주제도 그리기
 
@@ -355,7 +360,7 @@ stats_info |>
   gt::as_raw_html()
 ```
 
-<div id="gbnxkxqeth" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="oibydvqqqb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   &#10;  <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
     &#10;    <tr class="gt_col_headings" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
@@ -505,24 +510,24 @@ stats_info |>
 시각화가 가능합니다.
 
 ``` r
-pos_school <- school %>% 
-  filter(mega_nm %in% "서울특별시") %>% 
-  filter(school_class %in% "초등학교") %>% 
+pos_school <- school |>  
+  filter(mega_nm %in% "서울특별시") |> 
+  filter(school_class %in% "초등학교") |> 
   st_as_sf(coords = c("lon", "lat"), crs = 4326)
 
 ggplot() +
   stat_density_2d(data = pos_school, 
                   mapping = aes(x = purrr::map_dbl(geometry, ~.[1]),
                                 y = purrr::map_dbl(geometry, ~.[2]),
-                                fill = stat(density)),
+                                fill = after_stat(density)),
                   geom = 'tile',
                   contour = FALSE,
                   alpha = 0.7) +
   scale_fill_viridis_c(option = "viridis", direction = -1) +
-  geom_sf(data = cty %>% 
+  geom_sf(data = cty |> 
             filter(mega_nm %in% "서울특별시"),
           color = "grey30", fill = NA, linewidth = 0.8) +
-  geom_sf(data = pos_school, color = "blue") +  
+  geom_sf(data = pos_school, color = "blue", size = 0.5) +  
   xlim(126.75, 127.22) + 
   ylim(37.42, 37.71) + 
   labs(title = "서울특별시 초등학교 분포 현황",
