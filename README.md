@@ -92,8 +92,8 @@ devtools::install_github("bit2r/bitSpatial")
 
 ### 3. 법정동이냐 행정동이냐 그것이 문제로다.
 
-광역시도 \> 시군구 레벨 없음 \> **읍면동** 레벨에서의 읍면동은 두 가지
-기준이 있습니다.
+광역시도 \> 시군구 \> **읍면동** 레벨에서의 읍면동은 두 가지 기준이
+있습니다.
 
 - 법정동
   - **법**으로 **정**한 **동**의 의미로, 법으로 정한 행정구역의 단위
@@ -170,7 +170,7 @@ devtools::install_github("bit2r/bitSpatial")
   - 250 시군구
   - 3,528 읍면동
 - **수치지도와 결합한 행정구역별로 집계된 통계**
-  - 30개 통계
+  - 40개 통계
   - 인구통계, 초중고 학교 통계, 병원/약국 통계
   - 집계 통계는 계속 추가할 예정
 - 수치지도와 조인할 수 있는 집계된 통계
@@ -360,7 +360,7 @@ stats_info |>
   gt::as_raw_html()
 ```
 
-<div id="oibydvqqqb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="bpsigfsmxa" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
   &#10;  <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false" style="-webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; display: table; border-collapse: collapse; line-height: normal; margin-left: auto; margin-right: auto; color: #333333; font-size: 16px; font-weight: normal; font-style: normal; background-color: #FFFFFF; width: auto; border-top-style: solid; border-top-width: 2px; border-top-color: #A8A8A8; border-right-style: none; border-right-width: 2px; border-right-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #A8A8A8; border-left-style: none; border-left-width: 2px; border-left-color: #D3D3D3;" bgcolor="#FFFFFF">
   <thead style="border-style: none;">
     &#10;    <tr class="gt_col_headings" style="border-style: none; border-top-style: solid; border-top-width: 2px; border-top-color: #D3D3D3; border-bottom-style: solid; border-bottom-width: 2px; border-bottom-color: #D3D3D3; border-left-style: none; border-left-width: 1px; border-left-color: #D3D3D3; border-right-style: none; border-right-width: 1px; border-right-color: #D3D3D3;">
