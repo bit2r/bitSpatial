@@ -50,11 +50,17 @@ school <- fnames %>%
 ##==============================================================================
 ## 01.02. 위치정보로 행정구역 매핑하기
 ##==============================================================================
+## Error in wk_handle.wk_wkb(wkb, s2_geography_writer(oriented = oriented,  : 
+## Loop 0 is not valid: Edge 3 has duplicate vertex with edge 5
+sf::sf_use_s2(FALSE)
+
 school <- school %>% 
   bind_cols(
     position2admi(school$lon, school$lat) %>% 
       select(mega_cd:admi_nm)
   ) 
+
+sf::sf_use_s2(TRUE)
 
 
 ##==============================================================================

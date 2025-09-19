@@ -12,7 +12,7 @@
 ## https://www.data.go.kr/data/15051059/fileData.do
 ## 공공데이터포털 > 건강보험심사평가원_전국 병의원 및 약국 현황
 data_path <- here::here("raw", "stats")
-fnames <- c("2.약국정보서비스 2024.3.xlsx")
+fnames <- c("2.약국정보서비스 2025.6.xlsx")
 
 ##------------------------------------------------------------------------------
 ## 01.01.02. 데이터 읽기
@@ -114,6 +114,10 @@ tmp <- no_position %>%
   mutate(mega_nm = stringr::word(address, 1)) %>% 
   mutate(cty_nm = stringr::word(address, 2)) %>% 
   mutate(admi_nm = stringr::word(address, 3))
+
+## Error in wk_handle.wk_wkb(wkb, s2_geography_writer(oriented = oriented,  : 
+## Loop 0 is not valid: Edge 3 has duplicate vertex with edge 5
+sf::sf_use_s2(FALSE)
 
 pharmacy_nopos_01 <- tmp %>% 
   inner_join(
@@ -365,11 +369,13 @@ pharmacy_nopos$lat <- pos[, 2]
 pharmacy_nopos <- pharmacy_nopos %>% 
   select(-geometry)
 
+sf::sf_use_s2(TRUE)
 
 ##==============================================================================
 ## 02.05. 최종 데이터
 ##==============================================================================
 pharmacy_info <- pharmacy_pos %>% 
+  mutate(lon = as.numeric(lon), lat = as.numeric(lat)) |> 
   bind_rows(
     pharmacy_nopos
   ) %>% 

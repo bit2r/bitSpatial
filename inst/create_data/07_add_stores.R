@@ -13,6 +13,8 @@
 ## - https://sg.sbiz.or.kr/godo/noticeInfo/announcementView.sg?id=5158&page=1
 ##    - [공지사항] 공공데이터포털 상가(상권)정보 데이터 변경 안내(파일데이터, 오픈API)
 ## 소상공인시장진흥공단_상가(상권)정보
+## 2025년 7월 29일 변경 데이터
+
 data_path <- here::here("raw", "stats", "stores")
 
 fnames <- list.files(data_path, pattern = "csv$")
@@ -148,10 +150,10 @@ store_info_gyeonggi <- store_info %>%
   filter(mega_cd %in% "41")
 
 store_info_middle <- store_info %>% 
-  filter(mega_cd %in% c("28", "30", "36", "42", "43", "44"))
+  filter(mega_cd %in% c("28", "30", "36", "51", "43", "44"))
 
 store_info_south <- store_info %>% 
-  filter(mega_cd %in% c("26", "27", "29", "31", "45", "46", "47", "48", "50"))
+  filter(mega_cd %in% c("26", "27", "29", "31", "52", "46", "47", "48", "50"))
 
 
 ##==============================================================================

@@ -13,7 +13,7 @@
 ## https://opendata.hira.or.kr/op/opc/selectOpenData.do?sno=11925
 ## 공공데이터포털 > 건강보험심사평가원_전국 병의원 및 약국 현황
 data_path <- here::here("raw", "stats")
-fnames <- c("1.병원정보서비스 2024.3.xlsx")
+fnames <- c("1.병원정보서비스 2025.6.xlsx")
 
 ##------------------------------------------------------------------------------
 ## 01.01.02. 데이터 읽기
@@ -115,13 +115,13 @@ rm(tmp)
 
 
 ##------------------------------------------------------------------------------
-## 02.02.02. 미 매치건 추출
+## 02.01.02. 미 매치건 추출
 ##------------------------------------------------------------------------------
 hospital_nomatch <- hospital_pos %>% 
   filter(is.na(mega_cd))
 
 ##------------------------------------------------------------------------------
-## 02.02.03. 매치건만 취하기
+## 02.01.03. 매치건만 취하기
 ##------------------------------------------------------------------------------
 hospital_pos <- hospital_pos %>% 
   filter(!is.na(mega_cd))
@@ -150,6 +150,10 @@ tmp <- no_position %>%
   mutate(cty_nm = stringr::word(address, 2)) %>% 
   mutate(admi_nm = stringr::word(address, 3))
 
+## Error in wk_handle.wk_wkb(wkb, s2_geography_writer(oriented = oriented,  : 
+## Loop 0 is not valid: Edge 3 has duplicate vertex with edge 5
+sf::sf_use_s2(FALSE)
+
 hospital_nopos_01 <- tmp %>% 
   inner_join(
      admi %>% 
@@ -159,7 +163,7 @@ hospital_nopos_01 <- tmp %>%
     ) %>% 
   select(hospital_nm:lat, base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, 
          admi_nm, geometry)
-  
+
 ##------------------------------------------------------------------------------
 ## 02.02.03. 광역시도 + 시군구 + 읍면동 조인으로 매핑하기
 ##  주소의 1, 2과 괄호 안의 워드를 각각 추출하여 조인
@@ -347,6 +351,7 @@ hospital_nopos_07 <- tmp %>%
   ) %>% 
   select(hospital_nm:lat, base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm, geometry)
 
+sf::sf_use_s2(TRUE)
 
 ##==============================================================================
 ## 02.03. 위경도 없는 데이터 병합
@@ -389,6 +394,7 @@ hospital_nopos <- hospital_nopos %>%
 ## 02.05. 최종 데이터
 ##==============================================================================
 hospital_info <- hospital_pos %>% 
+  mutate(lon = as.numeric(lon), lat = as.numeric(lat)) |> 
   bind_rows(
     hospital_nopos
   ) %>% 

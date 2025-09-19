@@ -10,8 +10,8 @@
 ## 01.01.01. 파일 정보
 ##------------------------------------------------------------------------------
 ## https://business.juso.go.kr/addrlink/attrbDBDwld/attrbDBDwldList.do?cPath=99MD&menu=%EB%8F%84%EB%A1%9C%EB%AA%85%EC%A3%BC%EC%86%8C+%ED%95%9C%EA%B8%80
-## 주소기반산업지원서비스 > 공개하는 주소 > 도로명주소 한글 > 전체자료 > 2023년 6월
-data_path <- here::here("raw", "meta", "202306_도로명주소 한글_전체분")
+## 주소기반산업지원서비스 > 공개하는 주소 > 도로명주소 한글 > 전체자료 > 2024년 6월
+data_path <- here::here("raw", "meta", "202406_도로명주소 한글_전체분")
 fnames <- list.files(data_path, pattern = "txt")
 
 library(tidyverse)

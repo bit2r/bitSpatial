@@ -1,3 +1,12 @@
+# bitSpatial 0.2.8.9001
+
+## MAJOR CHANGES
+
+* 통계 데이터 및 지도 정보 현행화 (#39)
+* 전라북도가 전북특별자치도 변경에 따른 코드 및 명칭 변경 (#38)
+
+
+
 # bitSpatial 0.2.6.9001
 
 ## NEW FEATURES

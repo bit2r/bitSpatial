@@ -6,6 +6,8 @@
 ##==============================================================================
 ## from https://sgis.kostat.go.kr/view/pss/dataProvdIntrcn (통계청 통계지리정보서비스)
 file_mega <- here::here("raw", "shape", "bnd_sido_00_2023_2023", "bnd_sido_00_2023_2023_2Q.shp")
+file_mega <- here::here("raw", "shape", "bnd_sido_00_2023_4Q", "bnd_sido_00_2023_4Q.shp")
+file_mega <- here::here("raw", "shape", "bnd_sido_00_2024_2Q", "bnd_sido_00_2024_2Q.shp")
 mega <- sf::read_sf(file_mega) |> 
   rename_all(tolower) |> 
   rename(mega_cd = sido_cd,
@@ -13,13 +15,14 @@ mega <- sf::read_sf(file_mega) |>
   mutate(land_area = sf::st_area(.) |>
            units::set_units(km^2)) |>
   mutate(base_ym = substr(base_date, 1, 6)) |> 
-  mutate(base_ym = "202306") |> 
+  mutate(base_ym = "202406") |> 
   select(base_ym, mega_cd, mega_nm, land_area)
 
 ## Simplifying geospatial features
 ## 플로팅 속도 개선을 위해서 리아스식 해안의 복잡한 해안선을 심플하게 변경
 ## https://datascience.blog.wzb.eu/2021/03/15/simplifying-geospatial-features-in-r-with-sf-and-rmapshaper/
-mega <- rmapshaper::ms_simplify(mega, keep = 0.001, keep_shapes = FALSE)
+mega <- rmapshaper::ms_simplify(mega, keep = 0.001, keep_shapes = FALSE) |> 
+  select(base_ym, mega_cd, mega_nm, land_area)
 
 mega <- sf::st_transform(mega, 4326)
 
@@ -31,7 +34,7 @@ object.size(mega) |>
 ## 01.02. 시군구 레벨
 ##==============================================================================
 ## from https://sgis.kostat.go.kr/view/pss/dataProvdIntrcn (통계청 통계지리정보서비스)
-file_cty <- here::here("raw", "shape", "bnd_sigungu_00_2023_2023", "bnd_sigungu_00_2023_2023_2Q.shp")
+file_cty <- here::here("raw", "shape", "bnd_sigungu_00_2024_2Q", "bnd_sigungu_00_2024_2Q.shp")
 cty <- sf::read_sf(file_cty) |>
   rename_all(tolower) |>   
   mutate(mega_cd = substr(sigungu_cd, 1, 2)) |>
@@ -46,7 +49,7 @@ cty <- sf::read_sf(file_cty) |>
   mutate(land_area = sf::st_area(.) |> 
            units::set_units(km^2)) |>
   mutate(base_ym = substr(base_date, 1, 6)) |> 
-  mutate(base_ym = "202306") |> 
+  mutate(base_ym = "202406") |> 
   select(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, land_area)
 
 ## Simplifying geospatial features
@@ -63,7 +66,7 @@ object.size(cty) |>
 ## 01.03. 읍면동 레벨
 ##==============================================================================
 ## from https://sgis.kostat.go.kr/view/pss/dataProvdIntrcn (통계청 통계지리정보서비스)
-file_admi <- here::here("raw", "shape", "bnd_dong_00_2023_2023", "bnd_dong_00_2023_2023_2Q.shp")
+file_admi <- here::here("raw", "shape", "bnd_dong_00_2024_2Q", "bnd_dong_00_2024_2Q.shp")
 admi <- sf::read_sf(file_admi) |>
   rename_all(tolower) |>     
   mutate(mega_cd = substr(adm_cd, 1, 2)) |>
@@ -80,12 +83,12 @@ admi <- sf::read_sf(file_admi) |>
   mutate(land_area = sf::st_area(.) |>
            units::set_units(km^2)) |>
   mutate(base_ym = substr(base_date, 1, 6)) |> 
-  mutate(base_ym = "202306") |>  
+  mutate(base_ym = "202406") |>  
   select(base_ym, mega_cd:cty_nm, admi_cd, admi_nm, land_area)
 
 ## 위경도로 읍면동을매핑하기 위해서 저장
 admi_origin <- admi
-save(admi_origin, file = here::here("raw", "sf", "admi_origin.rda"))
+# save(admi_origin, file = here::here("raw", "sf", "admi_origin.rda"))
 
 ## Simplifying geospatial features
 ## 플로팅 속도 개선을 위해서 리아스식 해안의 복잡한 해안선을 심플하게 변경
@@ -109,9 +112,9 @@ object.size(admi) |>
 ## 02.01. 행정안전부의 행정기관코드 가져오기
 ##==============================================================================
 ## from https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000052&nttId=101209
-## - 20230701기준의 행정기관코드
-##    - 통계청의 행정구역코드 기준의 지도 기준이 2023년 6월 기준이기 때문에 시점 통일
-file_administrative <- here::here("raw", "meta", "KIKcd_H.20230701(말소코드포함).xlsx")
+## - 20240701기준의 행정기관코드
+##    - 통계청의 행정구역코드 기준의 지도 기준이 2024년 6월 기준이기 때문에 시점 통일
+file_administrative <- here::here("raw", "meta", "KIKcd_H.20240701(말소코드포함).xlsx")
 admi_district <- readxl::read_xlsx(file_administrative) |> 
   filter(is.na(말소일자)) |> 
   filter(!is.na(읍면동명)) |>   
@@ -120,7 +123,7 @@ admi_district <- readxl::read_xlsx(file_administrative) |>
   rename(cty_nm = 시군구명) |>   
   rename(admi_cd = 행정동코드) |>
   rename(admi_nm = 읍면동명) |>   
-  mutate(base_ym = "202306") |> 
+  mutate(base_ym = "202406") |> 
   mutate(mega_cd = substr(admi_cd, 1, 2)) |> 
   mutate(cty_cd = substr(admi_cd, 1, 5)) |> 
   mutate(cty_nm = case_when(
@@ -182,6 +185,17 @@ admi <- admi |>
   ) |> 
   select(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm, land_area)
 
+## 위경도로 읍면동을매핑하기 위해서 저장
+admi_origin <- admi_origin |> 
+  select(-mega_cd, -cty_cd, -admi_cd) |> 
+  left_join(
+    admi_district |> 
+      distinct(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm),
+    by = c("base_ym", "mega_nm", "cty_nm", "admi_nm")
+  ) |> 
+  select(base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, admi_nm, land_area)
+
+save(admi_origin, file = here::here("raw", "sf", "admi_origin.rda"))
 
 ##==============================================================================
 ## 02.06. 지도 데이터 저장

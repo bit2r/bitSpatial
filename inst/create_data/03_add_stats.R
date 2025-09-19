@@ -12,7 +12,7 @@
 ## https://jumin.mois.go.kr/index.jsp
 ## 행정안전부 > 주민등록 인구통계 > 주민등록 인구 및 세대현황
 data_path <- here::here("raw", "stats")
-fnames <- c("202306_202306_주민등록인구및세대현황_월간.xlsx")
+fnames <- c("202406_202406_주민등록인구및세대현황_월간.xlsx")
 
 library(tidyverse)
 ##------------------------------------------------------------------------------
@@ -76,6 +76,11 @@ admi <- admi %>%
 ## 01.02.02. 시군구 레벨에 집계하여 붙이기
 ##------------------------------------------------------------------------------
 # cty <- bitSpatial::cty
+
+## Error in wk_handle.wk_wkb(wkb, s2_geography_writer(oriented = oriented,  : 
+## Loop 0 is not valid: Edge 3 has duplicate vertex with edge 5
+sf::sf_use_s2(FALSE)
+
 cty <- cty %>% 
   left_join(
     admi %>% 
@@ -92,6 +97,7 @@ cty <- cty %>%
   )%>% 
   select(base_ym:land_area, population:male_per_female)
 
+sf::sf_use_s2(TRUE)
 
 ##------------------------------------------------------------------------------
 ## 01.02.03. 광역시도 레벨에 집계하여 붙이기
@@ -134,7 +140,7 @@ save(admi, file = here::here("data", "admi.rda"))
 ## https://jumin.mois.go.kr/index.jsp
 ## 행정안전부 > 주민등록 인구통계 > 연령별 인구현황
 data_path <- here::here("raw", "stats")
-fnames <- c("202306_202306_연령별인구현황_월간.xlsx")
+fnames <- c("202406_202406_연령별인구현황_월간.xlsx")
 
 ##------------------------------------------------------------------------------
 ## 02.01.02. 데이터 읽기
@@ -249,7 +255,7 @@ save(mega_population_age, cty_population_age, admi_population_age,
 ## https://jumin.mois.go.kr/index.jsp
 ## 행정안전부 > 주민등록 인구통계 > 주민등록 인구 기타현황 > 지역별 평균연령
 data_path <- here::here("raw", "stats")
-fnames <- c("202306_202306_주민등록인구기타현황(평균연령)_avgAge_mega.xlsx")
+fnames <- c("202406_202406_주민등록인구기타현황(평균연령)_avgAge_mega.xlsx")
 
 ##------------------------------------------------------------------------------
 ## 03.01.01. 데이터 읽기
