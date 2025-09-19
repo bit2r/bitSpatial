@@ -73,9 +73,7 @@ hospital <- fnames %>%
 tmp <- hospital %>% 
   filter(!is.na(lon))
 
-load(here::here("raw", "sf", "admi_origin.rda"))
-admi_origin <- admi_origin %>% 
-  st_transform(4326)
+# load(here::here("raw", "sf", "admi_origin.rda"))
 
 position2admi_origin <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) {
   proj <- match.arg(proj)

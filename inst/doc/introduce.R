@@ -73,24 +73,24 @@ thematic_map(zoom = "admi",
 stats_info
 
 ## ----warning=FALSE, fig.height=7.1, fig.width=8, fig.align='center'-----------
-pos_school <- school %>% 
-  filter(mega_nm %in% "서울특별시") %>% 
-  filter(school_class %in% "초등학교") %>% 
+pos_school <- school |>  
+  filter(mega_nm %in% "서울특별시") |> 
+  filter(school_class %in% "초등학교") |> 
   st_as_sf(coords = c("lon", "lat"), crs = 4326)
 
 ggplot() +
   stat_density_2d(data = pos_school, 
                   mapping = aes(x = purrr::map_dbl(geometry, ~.[1]),
                                 y = purrr::map_dbl(geometry, ~.[2]),
-                                fill = stat(density)),
+                                fill = after_stat(density)),
                   geom = 'tile',
                   contour = FALSE,
                   alpha = 0.7) +
   scale_fill_viridis_c(option = "viridis", direction = -1) +
-  geom_sf(data = cty %>% 
+  geom_sf(data = cty |> 
             filter(mega_nm %in% "서울특별시"),
           color = "grey30", fill = NA, linewidth = 0.8) +
-  geom_sf(data = pos_school, color = "blue") +  
+  geom_sf(data = pos_school, color = "blue", size = 0.5) +  
   xlim(126.75, 127.22) + 
   ylim(37.42, 37.71) + 
   labs(title = "서울특별시 초등학교 분포 현황",

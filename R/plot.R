@@ -129,12 +129,13 @@ theme_custom_map <- function(base_size = 11,
 #' @importFrom  rlang sym enquo
 #' @importFrom classInt classIntervals
 thematic_map <- function(
-    zoom = c("mega", "cty", "admi")[1], subset = NULL, stat = NULL, 
+    zoom = c("mega", "cty", "admi"), subset = NULL, stat = NULL, 
     polygon = TRUE, point = FALSE, label = NULL, col_cnt = 9, palette = "YlOrRd", 
     line_col = "darkgray", fill = "lightblue", point_col = "blue", title = NULL, 
     subtitle = NULL, legend_pos = c("none", "right", "left", "bottom", "top"),
     base_family = "NanumSquare")
 {
+  zoom <- match.arg(zoom)
   legend_pos <- match.arg(legend_pos)
   
   map_df <- eval(get(zoom))
@@ -167,7 +168,13 @@ thematic_map <- function(
       
       if (length(brks) > col_cnt) {
         brks <- classInt::classIntervals(stats2, n = col_cnt, style = "quantile")
-        brks <- unique(round(brks$brks))
+        # legend binning 오류(#35) 수정
+        # brks <- unique(round(brks$brks))
+        brks_min <-  floor(brks$brks[1])
+        brks_max <-  ceiling(brks$brks[length(brks$brks)])
+        # overflow of the count of legend (#36) 수정
+        brks_mid <-  round(brks$brks[2:(length(brks$brks)-1)])
+        brks <- unique(c(brks_min, brks_mid, brks_max))
       }         
     })
     

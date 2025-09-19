@@ -24,24 +24,24 @@ pharmacy <- fnames %>%
     function(x) {
       fname <- glue::glue("{data_path}/{x}")
       
-      pharmacy <- openxlsx::read.xlsx(fname)
+      pharmacy <- openxlsx::read.xlsx(fname, detectDates = TRUE)
       
-      pharmacy %>% 
+      pharmacy |> 
         rename("pharmacy_nm" = 요양기관명,
                "class_cd" = 종별코드,
                "class_nm" = 종별코드명,               
                # "mega_cd" = 시도코드,
                # "mega_nm" = 시도코드명,
                # "cty_cd" = 시군구코드,
-               # "cty_nm" = 시군구코드명,               
+               # "cty_nm" = 시군구코드명,
                # "admi_nm" = 읍면동,
                "post_cd" = 우편번호,
                "address" = 주소,
                "open_date" = 개설일자,
                "lat" = `좌표(Y)`,
-               "lon" = `좌표(X)`) %>% 
-        select(-암호화요양기호, -시도코드, -시도코드명, -시군구코드, 
-               -시군구코드명, -읍면동, -전화번호) %>% 
+               "lon" = `좌표(X)`) |> 
+        select(-암호화요양기호, -시도코드, -시도코드명, -시군구코드,
+               -시군구코드명, -읍면동, -전화번호) |>
         mutate(post_cd = stringr::str_pad(post_cd, 5, pad = "0"))
     }
   ) 
@@ -57,9 +57,7 @@ pharmacy <- fnames %>%
 tmp <- pharmacy %>% 
   filter(!is.na(lon))
 
-load(here::here("raw", "sf", "admi_origin.rda"))
-admi_origin <- admi_origin %>% 
-  st_transform(4326)
+# load(here::here("raw", "sf", "admi_origin.rda"))
 
 position2admi_origin <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) {
   proj <- match.arg(proj)
@@ -129,6 +127,7 @@ pharmacy_nopos_01 <- tmp %>%
   select(pharmacy_nm:lat, base_ym, mega_cd, mega_nm, cty_cd, cty_nm, admi_cd, 
          admi_nm, geometry)
   
+
 ##------------------------------------------------------------------------------
 ## 02.02.03. 광역시도 + 시군구 + 읍면동 조인으로 매핑하기
 ##  주소의 1, 2과 괄호 안의 워드를 각각 추출하여 조인
