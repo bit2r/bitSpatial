@@ -44,7 +44,7 @@ population_total <- fnames %>%
         mutate(cty_cd = substr(org_cd, 1, 5)) %>% 
         mutate(cty_nm = str_split(org_nm, " ", n = 3) %>%
                  purrr::map_chr(function(x) x[2])) %>% 
-        mutate(admi_cd = substr(org_cd, 1, 10)) %>% 
+        mutate(admi_cd = substr(org_cd, 1, 8)) %>% 
         mutate(admi_nm = str_split(org_nm, " ", n = 3) %>%
                  purrr::map_chr(function(x) x[3])) %>% 
         select(base_ym, mega_cd:admi_nm, population:male_per_female) %>% 
@@ -363,7 +363,7 @@ age_mean_admi <- fnames %>%
         mutate(cty_cd = substr(org_cd, 1, 5)) %>% 
         mutate(cty_nm = stringr::str_split(org_nm, " ", n = 3) %>%
                  purrr::map_chr(function(x) x[2])) %>%   
-        mutate(admi_cd = substr(org_cd, 1, 10)) %>% 
+        mutate(admi_cd = substr(org_cd, 1, 8)) %>% 
         mutate(admi_nm = stringr::str_split(org_nm, " ", n = 3) %>%
                  purrr::map_chr(function(x) x[3])) %>%         
         select(base_ym:admi_nm, age_mean_male:age_mean) %>% 

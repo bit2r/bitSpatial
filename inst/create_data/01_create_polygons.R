@@ -71,6 +71,7 @@ admi <- sf::read_sf(file_admi) |>
   rename_all(tolower) |>     
   mutate(mega_cd = substr(adm_cd, 1, 2)) |>
   mutate(cty_cd = substr(adm_cd, 1, 5)) |>
+  mutate(adm_cd = substr(adm_cd, 1, 8)) |>
   left_join(
     cty |>
       select(mega_cd, mega_nm, cty_cd, cty_nm) |>
@@ -126,6 +127,7 @@ admi_district <- readxl::read_xlsx(file_administrative) |>
   mutate(base_ym = "202406") |> 
   mutate(mega_cd = substr(admi_cd, 1, 2)) |> 
   mutate(cty_cd = substr(admi_cd, 1, 5)) |> 
+  mutate(admi_cd = substr(admi_cd, 1, 8)) |> 
   mutate(cty_nm = case_when(
     mega_cd %in% "36" ~ "세종시",
     TRUE ~ cty_nm  

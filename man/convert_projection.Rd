@@ -7,8 +7,8 @@
 convert_projection(
   x,
   y,
-  from = c("WGS84", "Bessel", "GRS80", "KATECH")[3],
-  to = c("WGS84", "Bessel", "GRS80", "KATECH")
+  from = c("WGS84", "Bessel", "GRS80", "KATECH", "ESPG:5181")[3],
+  to = c("WGS84", "Bessel", "GRS80", "KATECH", "ESPG:5181")
 )
 }
 \arguments{
@@ -40,6 +40,7 @@ from과 to에 사용할 수 있는 좌표계 CRS정보는 다음과 같습니다
 \item "WGS84" : WGS84 경위도 좌표계. (EPSG:4326)
 \item "Bessel" : Bessel 1841 경위도. 한국과 일본에 잘 맞는 지역타원체를 사용한 좌표계.
 \item "GRS80" : 통계청 통계지리정보서비스 좌표계(네이버지도에서 사용중인 좌표계). (EPSG:5179)
+\item "ESPG:5181" : 국토지리원 옛 표준. 중부원점 좌표계(Kakao, 공공데이터포탈에서 사용중인 좌표계). (ESPG:5181)
 \item "KATECH" : KATECH 좌표계. 비표준 좌표계임.
 }
 }

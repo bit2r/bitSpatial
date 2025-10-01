@@ -260,6 +260,7 @@ position2admi <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) 
 #' \item "WGS84" : WGS84 경위도 좌표계. (EPSG:4326)
 #' \item "Bessel" : Bessel 1841 경위도. 한국과 일본에 잘 맞는 지역타원체를 사용한 좌표계.
 #' \item "GRS80" : 통계청 통계지리정보서비스 좌표계(네이버지도에서 사용중인 좌표계). (EPSG:5179)
+#' \item "ESPG:5181" : 국토지리원 옛 표준. 중부원점 좌표계(Kakao, 공공데이터포탈에서 사용중인 좌표계). (ESPG:5181)
 #' \item "KATECH" : KATECH 좌표계. 비표준 좌표계임.
 #' }
 #' @examples
@@ -275,8 +276,8 @@ position2admi <- function(x, y, proj = c("WGS84", "Bessel", "GRS80", "KATECH")) 
 #' }
 #' @export
 #' @import sf
-convert_projection <- function(x, y, from = c("WGS84", "Bessel", "GRS80", "KATECH")[3],
-                               to = c("WGS84", "Bessel", "GRS80", "KATECH")) {
+convert_projection <- function(x, y, from = c("WGS84", "Bessel", "GRS80", "KATECH", "ESPG:5181")[3],
+                               to = c("WGS84", "Bessel", "GRS80", "KATECH", "ESPG:5181")) {
   # WGS84 경위도 좌표계 : EPSG:4326
   projWGS84 <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
   crsWGS84  <- 4326
@@ -293,11 +294,16 @@ convert_projection <- function(x, y, from = c("WGS84", "Bessel", "GRS80", "KATEC
   projKATECH <- "+proj=tmerc +lat_0=38 +lon_0=128 +k=0.9999 +x_0=400000 +y_0=600000 +ellps=bessel +units=m +no_defs +towgs84=-115.80,474.99,674.11,1.16,-2.31,-1.63,6.43"
   crsKATECH  <- NA 
   
+  # ESPG:5181 / 국토지리원 옛 표준. 중부원점 좌표계(Kakao, 공공데이터포탈에서 사용중인 좌표계) (EPSG:5181)
+  projESPG5181 <- "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=GRS80 +units=m +no_defs"
+  crsESPG5181  <- 5181
+  
   from_crs <- case_when(
     from %in% "WGS84" ~ projWGS84,
     from %in% "Bessel" ~ projBessel,
     from %in% "GRS80" ~ projGRS80,
     from %in% "KATECH" ~ projKATECH,
+    from %in% "ESPG:5181" ~ projESPG5181,
     TRUE ~ from
   )
 
@@ -308,6 +314,7 @@ convert_projection <- function(x, y, from = c("WGS84", "Bessel", "GRS80", "KATEC
     to %in% "Bessel" ~ projBessel,
     to %in% "GRS80" ~ projGRS80,
     to %in% "KATECH" ~ projKATECH,
+    to %in% "ESPG:5181" ~ projESPG5181,
     TRUE ~ to    
   )
   
