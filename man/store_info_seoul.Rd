@@ -52,13 +52,13 @@
 "공공데이터 포털의 소상공인시장진흥공단_상가(상권)정보" in <https://www.data.go.kr/data/15083033/fileData.do>.
 }
 \usage{
-data(store_info_seoul)
+load(file = system.file("extdata", "store_info_seoul.rda", package = "bitSpatial"))
 
-data(store_info_gyeonggi)
+load(file = system.file("extdata", "store_info_gyeonggi.rda", package = "bitSpatial"))
 
-data(store_info_middle)
+load(file = system.file("extdata", "store_info_middle.rda", package = "bitSpatial"))
 
-data(store_info_south)
+load(file = system.file("extdata", "store_info_south.rda", package = "bitSpatial"))
 }
 \description{
 소상공인시장진흥공단에서 제공하는 상가 위치 정보

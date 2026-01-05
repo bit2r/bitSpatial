@@ -1,4 +1,17 @@
-# bitSpatial 0.2.8.9001
+# bitSpatial 0.2.9.9000
+
+## MAJOR CHANGES
+
+* dataset 구조 변경 (#41)
+    - 대용량 데이터 파일 4종을 /data 폴더에서 /inst/extdata 폴더로 이동
+        - store_info_south.rda
+        - store_info_gyeonggi.rda
+        - store_info_seoul.rda
+        - store_info_middle.rda
+    - 도움말 페이지의 데이터 사용 방법 변경
+    
+    
+# bitSpatial 0.2.8
 
 ## MAJOR CHANGES
 

@@ -377,10 +377,10 @@ NULL
 #' @docType data
 #' @keywords datasets
 #' @name store_info_seoul
-#' @usage data(store_info_seoul)
-#' @usage data(store_info_gyeonggi)
-#' @usage data(store_info_middle)
-#' @usage data(store_info_south)
+#' @usage load(file = system.file("extdata", "store_info_seoul.rda", package = "bitSpatial"))
+#' @usage load(file = system.file("extdata", "store_info_gyeonggi.rda", package = "bitSpatial"))
+#' @usage load(file = system.file("extdata", "store_info_middle.rda", package = "bitSpatial"))
+#' @usage load(file = system.file("extdata", "store_info_south.rda", package = "bitSpatial"))
 #' @source 
 #' "공공데이터 포털의 소상공인시장진흥공단_상가(상권)정보" in <https://www.data.go.kr/data/15083033/fileData.do>.
 NULL
